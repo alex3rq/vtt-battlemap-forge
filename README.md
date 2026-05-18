@@ -13,7 +13,11 @@
 [![License: MIT][license-shield]][license-url]
 [![Agent Skills][skills-shield]][skills-url]
 
-  <img src="images/logo-vtt-battlemap-forge.png" alt="vtt-battlemap-forge logo" width="600">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/logo-vtt-battlemap-forge.png">
+    <source media="(prefers-color-scheme: light)" srcset=".github/logo-vtt-battlemap-forge.png">
+    <img alt="vtt-battlemap-forge logo" src=".github/logo-vtt-battlemap-forge.png" width="600">
+  </picture>
 
 </div>
 

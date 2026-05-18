@@ -12,13 +12,13 @@ Environment presets define biome, terrain materials, natural palette, and prop l
 ## Execution Procedure
 
 ```
-select_environment(user_request, concept) → env_preset
+select_environment(user_request) → env_preset
 
 match user_request against:
     environment number (1-11) → use exactly
     environment name or alias → match to correct preset
-    no environment specified → derive from concept
-    no concept available → generic stone/earth dungeon
+    no environment specified → derive concept from user_request
+    no concept derivable → generic stone/earth dungeon
 
 return: terrain, palette, props, lighting default, any special notes
 ```
