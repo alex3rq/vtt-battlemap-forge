@@ -14,9 +14,9 @@
 [![Agent Skills][skills-shield]][skills-url]
 
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/logo-vtt-battlemap-forge.png">
-    <source media="(prefers-color-scheme: light)" srcset=".github/logo-vtt-battlemap-forge.png">
-    <img alt="vtt-battlemap-forge logo" src=".github/logo-vtt-battlemap-forge.png" width="600">
+    <source media="(prefers-color-scheme: dark)" srcset="https://ik.imagekit.io/alex3rq/Git/vtt-battlemap-forge/logo-vtt-battlemap-forge.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://ik.imagekit.io/alex3rq/Git/vtt-battlemap-forge/logo-vtt-battlemap-forge.png">
+    <img alt="vtt-battlemap-forge logo" src="https://ik.imagekit.io/alex3rq/Git/vtt-battlemap-forge/logo-vtt-battlemap-forge.png" width="600">
   </picture>
 
 </div>
