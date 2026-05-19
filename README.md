@@ -5,7 +5,7 @@
 <div align="center">
 
   <h1>vtt-battlemap-forge</h1>
-  <p>One skill, three modes — generate VTT battlemaps, craft image prompts, or apply surgical corrections without redoing the whole map</p>
+  <p>One skill, four modes — generate VTT battlemaps, craft image prompts, apply surgical corrections, or create cinematic scene art from your map locations</p>
 </div>
 
 <div align="center">
@@ -46,11 +46,13 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 
 ## Features
 
-- **Three operating modes** — Prompt Mode (craft image-generation prompts for external AIs), Generation Mode (create battlemaps directly), Correction Mode (apply targeted fixes without regenerating)
+- **Four operating modes** — Prompt Mode (craft image-generation prompts), Generation Mode (create battlemaps), Correction Mode (targeted fixes), Scene Art Mode (cinematic key art and scene illustrations from map locations)
+- **DM variant** — Optional creature and NPC placement layer for Prompt, Generation, and Scene Art modes. Player-facing by default; DM variant activated on request
 - **17 aesthetic styles** — Naturalistic Hand-Painted, Baldur's Gate 3-like, Diablo-like, FF14-like, Darkest Dungeon-like, WoW-like, Watercolor, 3D Render, and more
 - **11 environment presets** — Ancient Ruins, Natural Caves, Aquatic, Urban/Sewer, Arctic, Jungle, Volcanic, Swamp, Desert, Forest, Arcane/Planar
 - **VTT-native defaults** — Top-down orthographic perspective, subtle integrated grid, no visible creatures or text, balanced contrast for long sessions
-- **Reference image as layout lock** — Provide a reference image and the skill treats it as source of truth for geometry, preserving all room shapes, corridor widths, and grid alignment
+- **Reference image as layout lock** — Reference image is source of truth for geometry, preserving all room shapes, corridor widths, and grid alignment
+- **Scene Art with zone context** — Cinematic non-map illustrations grounded in the same environment and style; supports zone labels, adjacent area descriptions, map reference images, and moment suggestions
 - **Contrast policy per style** — Soft-to-balanced for most styles, high contrast for Diablo-like/Grimdark/Darkest Dungeon/Noir
 
 ## Quick Start
@@ -58,8 +60,10 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 | Prompt | Result |
 |--------|--------|
 | "Write a prompt for an ancient ruins map, FF14 style" | Returns a compact image-generation prompt in a code block |
-| "Generate a jungle beach battlemap, Baldur's Gate 3 style"<br>*— the kind where a certain sharp-eared rogue dramatically introduces himself* | Creates a VTT-ready battlemap image directly |
+| "Generate a jungle beach battlemap, Baldur's Gate 3 style" | Creates a VTT-ready battlemap image directly |
 | "Brighten the altar room and add more rubble" | Applies a targeted correction to a previously generated map |
+| "Create splash art for the volcanic forge — player-facing" | Returns a cinematic scene illustration prompt from the map's environment and style |
+| "Generate a DM version with goblin ambush positions" | Creates a battlemap with creatures placed in position on the map |
 
 ## Usage
 
@@ -78,6 +82,11 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 "redraw this map in watercolor"
 "add a hidden pit trap to area B2"
 "convert this room description into a prompt"
+"create splash art for this map"
+"make a cinematic scene illustration"
+"generate a DM version with creatures"
+"show me a key art view of this dungeon"
+"player handout art for the boss arena"
 ```
 
 **Example — Prompt Mode:**
@@ -107,6 +116,25 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 >
 > vtt-battlemap-forge will brighten the bridge area while preserving everything else: layout, style, palette, lighting direction, grid, and all other props and regions.
 
+**Example — Scene Art Mode (Player):**
+
+> User: "Create splash art for the Diablo-like volcanic forge, player-facing"
+>
+> vtt-battlemap-forge will:
+> 1. Suggest 3–6 cinematic moments from the forge environment (main chamber reveal, forge anvil close-up, lava channel threshold, etc.)
+> 2. Use Style D (Diablo-like) + Environment 7 (Volcanic/Infernal) for visual grounding
+> 3. Output a cinematic 16:9 prompt with camera direction, lighting, mood, and key visual elements
+> 4. Keep it spoiler-free — no creature reveals, hidden content, or DM-only information
+
+**Example — DM Variant (Generation):**
+
+> User: "Generate a cave ambush map, DM version — hobgoblin patrol in the north passage, giant spider on the ceiling near the collapsed tunnel"
+>
+> vtt-battlemap-forge will:
+> 1. Create the player-facing cave map with environmental props (weapon racks, shed chitin, etc.)
+> 2. Add a Creatures section: hobgoblin soldiers in patrol stance near north passage; giant spider clinging to ceiling rubble near collapsed tunnel
+> 3. Render creatures as illustrated figures consistent with the aesthetic style — no token circles or labels
+
 ## Install
 
 ```bash
@@ -133,17 +161,20 @@ ln -sfn ~/skills/vtt-battlemap-forge ~/.cursor/skills/vtt-battlemap-forge      #
 
 ## How It Works
 
-vtt-battlemap-forge selects one of three modes based on user intent, picks an aesthetic style (default: Naturalistic Hand-Painted) and environment preset (derived from concept), then applies VTT domain rules — top-down orthographic perspective, subtle grid, contrast policy, creature-to-prop conversion table, and environment-specific prop catalog — to produce a map or prompt.
+vtt-battlemap-forge selects one of four modes based on user intent, picks an aesthetic style (default: Naturalistic Hand-Painted) and environment preset (derived from concept), then applies VTT domain rules — top-down orthographic perspective, subtle grid, contrast policy, creature-to-prop conversion table, and environment-specific prop catalog — to produce a map or prompt. Scene Art Mode follows a separate cinematic flow: moment suggestions, camera selection, and non-top-down illustration prompts grounded in the same environment and style. An optional DM variant adds creature and NPC placement to Prompt, Generation, and Scene Art outputs.
 
 → [Full SKILL.md](SKILL.md) for the complete rule set
 
 ## What's Inside
 
 ```text
-SKILL.md                              — Execution procedure, VTT rules, prompt templates
+SKILL.md                              — Execution procedure, VTT rules, mode selection, DM variant
 references/
   aesthetic-styles.md                 — 17 aesthetic rendering styles with aliases, palettes, and best-use guidance
   environment-presets.md              — 11 environment presets with terrain, props, palette, and lighting defaults
+  vtt-core-rules.md                   — Perspective, grid, contrast, creatures, lighting, traps, correction rules, DM map variant, quality checklist
+  prompt-templates.md                 — Compact and Verbose prompt templates (player and DM variants)
+  scene-art-mode.md                   — Scene Art flow, moment suggestions, cinematic prompt template, camera guide, spoiler policy (player and DM variants)
 ```
 
 ## License
