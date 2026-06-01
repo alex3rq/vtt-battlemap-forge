@@ -5,7 +5,7 @@
 <div align="center">
 
   <h1>vtt-battlemap-forge</h1>
-  <p>One skill, four modes — generate VTT battlemaps, craft image prompts, apply surgical corrections, or create cinematic scene art from your map locations</p>
+  <p>One skill, five modes — generate VTT battlemaps, craft image prompts, apply surgical corrections, create cinematic scene art from your map locations, or forge premium circular creature tokens</p>
 </div>
 
 <div align="center">
@@ -46,7 +46,7 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 
 ## Features
 
-- **Four operating modes** — Prompt Mode (craft image-generation prompts), Generation Mode (create battlemaps), Correction Mode (targeted fixes), Scene Art Mode (cinematic key art and scene illustrations from map locations)
+- **Five operating modes** — Prompt Mode (craft image-generation prompts), Generation Mode (create battlemaps), Correction Mode (targeted fixes), Scene Art Mode (cinematic key art and scene illustrations from map locations), Token Mode (face-first circular VTT tokens for creatures, NPCs, and monsters)
 - **DM variant** — Optional creature and NPC placement layer for Prompt, Generation, and Scene Art modes. Player-facing by default; DM variant activated on request
 - **17 aesthetic styles** — Naturalistic Hand-Painted, Baldur's Gate 3-like, Diablo-like, FF14-like, Darkest Dungeon-like, WoW-like, Watercolor, 3D Render, and more
 - **11 environment presets** — Ancient Ruins, Natural Caves, Aquatic, Urban/Sewer, Arctic, Jungle, Volcanic, Swamp, Desert, Forest, Arcane/Planar
@@ -63,6 +63,7 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 | "Generate a jungle beach battlemap, Baldur's Gate 3 style" | Creates a VTT-ready battlemap image directly |
 | "Brighten the altar room and add more rubble" | Applies a targeted correction to a previously generated map |
 | "Create splash art for the volcanic forge — player-facing" | Returns a cinematic scene illustration prompt from the map's environment and style |
+| "Create a token for a dragonborn paladin, WoW-like style" | Returns a face-first 1:1 circular token prompt with border breakout |
 | "Generate a DM version with goblin ambush positions" | Creates a battlemap with creatures placed in position on the map |
 
 ## Usage
@@ -87,6 +88,11 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 "generate a DM version with creatures"
 "show me a key art view of this dungeon"
 "player handout art for the boss arena"
+"create a VTT token"
+"make a monster token"
+"generate an NPC token"
+"circular token portrait"
+"Foundry token for this creature"
 ```
 
 **Example — Prompt Mode:**
@@ -126,6 +132,18 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 > 3. Output a cinematic 16:9 prompt with camera direction, lighting, mood, and key visual elements
 > 4. Keep it spoiler-free — no creature reveals, hidden content, or DM-only information
 
+**Example — Token Mode:**
+
+> User: "Create a token for a lizardfolk shaman with a bone staff, swamp environment, Diablo-like style"
+>
+> vtt-battlemap-forge will:
+> 1. Load token-mode.md rules
+> 2. Select Style D (Diablo-like) + Environment 8 (Swamp) for visual grounding
+> 3. Apply face-first composition: face, crest, and staff as focal points
+> 4. Use bold red circular frame with controlled border breakout — crest, staff tip, and shoulders extending beyond the frame
+> 5. Use murky swamp mist as a simple atmospheric backdrop
+> 6. Output a compact 1:1 token prompt with no text, labels, or UI
+
 **Example — DM Variant (Generation):**
 
 > User: "Generate a cave ambush map, DM version — hobgoblin patrol in the north passage, giant spider on the ceiling near the collapsed tunnel"
@@ -161,7 +179,7 @@ ln -sfn ~/skills/vtt-battlemap-forge ~/.cursor/skills/vtt-battlemap-forge      #
 
 ## How It Works
 
-vtt-battlemap-forge selects one of four modes based on user intent, picks an aesthetic style (default: Naturalistic Hand-Painted) and environment preset (derived from concept), then applies VTT domain rules — top-down orthographic perspective, subtle grid, contrast policy, creature-to-prop conversion table, and environment-specific prop catalog — to produce a map or prompt. Scene Art Mode follows a separate cinematic flow: moment suggestions, camera selection, and non-top-down illustration prompts grounded in the same environment and style. An optional DM variant adds creature and NPC placement to Prompt, Generation, and Scene Art outputs.
+vtt-battlemap-forge selects one of five modes based on user intent, picks an aesthetic style (default: Naturalistic Hand-Painted) and environment preset (derived from concept), then applies VTT domain rules — top-down orthographic perspective, subtle grid, contrast policy, creature-to-prop conversion table, and environment-specific prop catalog — to produce a map or prompt. Scene Art Mode follows a separate cinematic flow: moment suggestions, camera selection, and non-top-down illustration prompts grounded in the same environment and style. Token Mode creates face-first circular creature tokens with intentional border breakout for premium tabletop presentation. An optional DM variant adds creature and NPC placement to Prompt, Generation, and Scene Art outputs.
 
 → [Full SKILL.md](SKILL.md) for the complete rule set
 
@@ -175,6 +193,7 @@ references/
   vtt-core-rules.md                   — Perspective, grid, contrast, creatures, lighting, traps, correction rules, DM map variant, quality checklist
   prompt-templates.md                 — Compact and Verbose prompt templates (player and DM variants)
   scene-art-mode.md                   — Scene Art flow, moment suggestions, cinematic prompt template, camera guide, spoiler policy (player and DM variants)
+  token-mode.md                       — Token rules, composition, border breakout, frame, background, prompt templates, quality checklist
 ```
 
 ## License
