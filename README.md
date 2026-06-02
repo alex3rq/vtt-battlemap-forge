@@ -46,7 +46,8 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 
 ## Features
 
-- **Five operating modes** — Prompt Mode (craft image-generation prompts), Generation Mode (create battlemaps), Correction Mode (targeted fixes), Scene Art Mode (cinematic key art and scene illustrations from map locations), Token Mode (face-first circular VTT tokens for creatures, NPCs, and monsters)
+- **Five operating modes** — Prompt Mode (craft image-generation prompts), Generation Mode (create battlemaps), Correction Mode (targeted fixes), Scene Art Mode (cinematic key art and scene illustrations from map locations), Token Mode (VTT tokens for creatures, NPCs, and monsters)
+- **Four token types** — Portrait/Pog (circular framed face-first bust, default), Top-Down (overhead bird's-eye sihouette view), Isometric/Standee (2.5D upright standee with base plate), Frameless Portrait (borderless bust with soft vignette). Each type has dedicated composition rules and prompt templates
 - **DM variant** — Optional creature and NPC placement layer for Prompt, Generation, and Scene Art modes. Player-facing by default; DM variant activated on request
 - **17 aesthetic styles** — Naturalistic Hand-Painted, Baldur's Gate 3-like, Diablo-like, FF14-like, Darkest Dungeon-like, WoW-like, Watercolor, 3D Render, and more
 - **11 environment presets** — Ancient Ruins, Natural Caves, Aquatic, Urban/Sewer, Arctic, Jungle, Volcanic, Swamp, Desert, Forest, Arcane/Planar
@@ -63,7 +64,10 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 | "Generate a jungle beach battlemap, Baldur's Gate 3 style" | Creates a VTT-ready battlemap image directly |
 | "Brighten the altar room and add more rubble" | Applies a targeted correction to a previously generated map |
 | "Create splash art for the volcanic forge — player-facing" | Returns a cinematic scene illustration prompt from the map's environment and style |
-| "Create a token for a dragonborn paladin, WoW-like style" | Returns a face-first 1:1 circular token prompt with border breakout |
+| "Create a token for a dragonborn paladin, WoW-like style" | Returns a face-first Portrait/Pog token prompt with circular frame and border breakout |
+| "Create a top-down token for a hobgoblin captain" | Returns an overhead bird's-eye token prompt — silhouette-first, solid dark background |
+| "Make an isometric standee for an elven ranger" | Returns a 2.5D upright standee prompt with base plate and standee warning note |
+| "Frameless token for a vampire lord, Diablo style" | Returns a borderless bust prompt with soft vignette edge, no circular rim |
 | "Generate a DM version with goblin ambush positions" | Creates a battlemap with creatures placed in position on the map |
 
 ## Usage
@@ -93,6 +97,12 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 "generate an NPC token"
 "circular token portrait"
 "Foundry token for this creature"
+"top-down token"
+"overhead token"
+"isometric token"
+"standee token"
+"frameless token"
+"borderless token portrait"
 ```
 
 **Example — Prompt Mode:**
@@ -132,17 +142,53 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 > 3. Output a cinematic 16:9 prompt with camera direction, lighting, mood, and key visual elements
 > 4. Keep it spoiler-free — no creature reveals, hidden content, or DM-only information
 
-**Example — Token Mode:**
+**Example — Token Mode (Portrait / Pog — default):**
 
 > User: "Create a token for a lizardfolk shaman with a bone staff, swamp environment, Diablo-like style"
 >
 > vtt-battlemap-forge will:
 > 1. Load token-mode.md rules
-> 2. Select Style D (Diablo-like) + Environment 8 (Swamp) for visual grounding
-> 3. Apply face-first composition: face, crest, and staff as focal points
-> 4. Use bold red circular frame with controlled border breakout — crest, staff tip, and shoulders extending beyond the frame
-> 5. Use murky swamp mist as a simple atmospheric backdrop
-> 6. Output a compact 1:1 token prompt with no text, labels, or UI
+> 2. Select token type: Portrait/Pog (default)
+> 3. Select Style D (Diablo-like) + Environment 8 (Swamp) for visual grounding
+> 4. Apply face-first composition: face, crest, and staff as focal points
+> 5. Use bold red circular frame with controlled border breakout — crest, staff tip, and shoulders extending beyond the frame
+> 6. Specify murky swamp mist inside the frame; solid dark outer area for clean background removal
+> 7. Output a compact Portrait/Pog token prompt
+
+**Example — Token Mode (Top-Down):**
+
+> User: "Create a top-down token for a hobgoblin captain"
+>
+> vtt-battlemap-forge will:
+> 1. Select token type: Top-Down
+> 2. Apply strict overhead bird's-eye composition — head, shoulders, back, weapons visible from directly above
+> 3. Specify facing direction readable from the silhouette
+> 4. Use solid black background for easy background removal
+> 5. No circular frame — the silhouette defines the token shape
+> 6. Output a compact Top-Down token prompt
+
+**Example — Token Mode (Isometric / Standee):**
+
+> User: "Make an isometric standee for an elven ranger"
+>
+> vtt-battlemap-forge will:
+> 1. Select token type: Isometric/Standee
+> 2. Apply 2.5D isometric perspective — full body, upright, on an oval base plate
+> 3. Key light from upper-left (isometric convention)
+> 4. Solid dark background for clean background removal
+> 5. Output a compact Isometric/Standee token prompt
+> 6. Append standee warning note: token is designed for isometric battlemaps; on top-down maps it will appear as if the character is lying flat
+
+**Example — Token Mode (Frameless Portrait):**
+
+> User: "Frameless token for a vampire lord, Diablo style"
+>
+> vtt-battlemap-forge will:
+> 1. Select token type: Frameless Portrait
+> 2. Apply face-first bust composition with no circular border ring
+> 3. Background fades to near-black at all edges via soft painterly vignette
+> 4. No frame color selection — no rim rendered
+> 5. Output a compact Frameless Portrait token prompt
 
 **Example — DM Variant (Generation):**
 
@@ -179,7 +225,7 @@ ln -sfn ~/skills/vtt-battlemap-forge ~/.cursor/skills/vtt-battlemap-forge      #
 
 ## How It Works
 
-vtt-battlemap-forge selects one of five modes based on user intent, picks an aesthetic style (default: Naturalistic Hand-Painted) and environment preset (derived from concept), then applies VTT domain rules — top-down orthographic perspective, subtle grid, contrast policy, creature-to-prop conversion table, and environment-specific prop catalog — to produce a map or prompt. Scene Art Mode follows a separate cinematic flow: moment suggestions, camera selection, and non-top-down illustration prompts grounded in the same environment and style. Token Mode creates face-first circular creature tokens with intentional border breakout for premium tabletop presentation. An optional DM variant adds creature and NPC placement to Prompt, Generation, and Scene Art outputs.
+vtt-battlemap-forge selects one of five modes based on user intent, picks an aesthetic style (default: Naturalistic Hand-Painted) and environment preset (derived from concept), then applies VTT domain rules — top-down orthographic perspective, subtle grid, contrast policy, creature-to-prop conversion table, and environment-specific prop catalog — to produce a map or prompt. Scene Art Mode follows a separate cinematic flow: moment suggestions, camera selection, and non-top-down illustration prompts grounded in the same environment and style. Token Mode creates one of four token types — Portrait/Pog (circular framed face-first bust), Top-Down (overhead bird's-eye silhouette), Isometric/Standee (2.5D upright standee), or Frameless Portrait (borderless bust with vignette edge) — each with its own composition rules, background strategy, and prompt template. An optional DM variant adds creature and NPC placement to Prompt, Generation, and Scene Art outputs.
 
 → [Full SKILL.md](SKILL.md) for the complete rule set
 
@@ -193,7 +239,7 @@ references/
   vtt-core-rules.md                   — Perspective, grid, contrast, creatures, lighting, traps, correction rules, DM map variant, quality checklist
   prompt-templates.md                 — Compact and Verbose prompt templates (player and DM variants)
   scene-art-mode.md                   — Scene Art flow, moment suggestions, cinematic prompt template, camera guide, spoiler policy (player and DM variants)
-  token-mode.md                       — Token rules, composition, border breakout, frame, background, prompt templates, quality checklist
+  token-mode.md                       — Token type selection (Portrait/Pog, Top-Down, Isometric/Standee, Frameless Portrait), composition rules per type, border breakout (Portrait/Pog), frame rules, background strategy with post-process guidance, prompt templates per type, quality checklist
 ```
 
 ## License

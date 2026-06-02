@@ -1,6 +1,6 @@
 ---
 name: vtt-battlemap-forge
-description: Unified VTT battlemap, token, and scene-art assistant. Five modes — Prompt (convert description into image-generation prompt), Generation (create player-facing VTT battlemap), Correction (targeted fix to previously generated map), Scene Art (cinematic key-art / scene illustration prompts based on map environment and moments), Token (face-first circular VTT tokens for creatures, NPCs, and monsters). Prompt, Generation, and Scene Art modes support an optional DM variant that includes creature and NPC placement. Player-facing is always the default. Use when user asks to create, generate, or fix a battlemap, dungeon map, encounter map, or VTT map; asks for splash art, key art, scene illustration, or cinematic view of a map location; or asks for a VTT token, creature token, NPC token, or character portrait token. Supports 17 aesthetic styles and 11 environment presets.
+description: Unified VTT battlemap, token, and scene-art assistant. Five modes — Prompt (convert description into image-generation prompt), Generation (create player-facing VTT battlemap), Correction (targeted fix to previously generated map), Scene Art (cinematic key-art / scene illustration prompts based on map environment and moments), Token (VTT tokens for creatures, NPCs, and monsters — four types: Portrait/Pog, Frameless Portrait, Top-Down, Isometric/Standee). Prompt, Generation, and Scene Art modes support an optional DM variant that includes creature and NPC placement. Player-facing is always the default. Use when user asks to create, generate, or fix a battlemap, dungeon map, encounter map, or VTT map; asks for splash art, key art, scene illustration, or cinematic view of a map location; or asks for a VTT token, creature token, NPC token, or character portrait token. Supports 17 aesthetic styles and 11 environment presets.
 license: MIT
 metadata:
   version: "2.0"
@@ -33,12 +33,12 @@ Load only the references needed for the active mode. Do not load all files by de
 
 **Scene Art Mode** — user asks for: splash art, key art, scene illustration, cinematic view, player handout art, alternate perspective of the map, art showing the environment from inside the location, or a dramatic moment based on the map. Scene Art is not a VTT battlemap mode.
 
-**Token Mode** — user asks to create a VTT token, creature token, NPC token, monster token, portrait token, circular token, Roll20/Foundry token, or asks to convert a character/creature image into a 1:1 token.
+**Token Mode** — user asks to create a VTT token, creature token, NPC token, monster token, portrait token, circular token, Roll20/Foundry token, or asks to convert a character/creature image into a 1:1 token. Also triggers for top-down tokens, isometric standee tokens, frameless portrait tokens.
 
 Token Mode is inherently creature-focused — there is no DM variant. The token itself is the subject.
 
 Token Mode triggers:
-"token", "VTT token", "creature token", "monster token", "NPC token", "portrait token", "circular token", "make a token", "create a token", "Foundry token", "Roll20 token", "focus on the face", "face token", "1:1 token", "character token", "generate a token".
+"token", "VTT token", "creature token", "monster token", "NPC token", "portrait token", "circular token", "make a token", "create a token", "Foundry token", "Roll20 token", "focus on the face", "face token", "1:1 token", "character token", "generate a token", "top-down token", "overhead token", "isometric token", "standee", "standee token", "frameless token", "borderless token", "no frame token".
 
 For full Token Mode rules, see `references/token-mode.md`.
 
@@ -84,11 +84,15 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
     # Token mode — see references/token-mode.md
     if mode == "token":
         load(references/token-mode.md)
-        frame_color = select_frame_color(user_request)   # default: red
-        framing    = select_framing(user_request)        # default: face-focused bust
-        build_token_prompt(user_request, style, env, frame_color, framing,
+        token_type = select_token_type(user_request)  # default: portrait_pog
+        # "portrait_pog" | "frameless_portrait" | "top_down" | "isometric_standee"
+        frame_color = select_frame_color(user_request)   # default: red; portrait_pog only
+        framing    = select_framing(user_request)        # portrait_pog and frameless only
+        build_token_prompt(user_request, token_type, style, env, frame_color, framing,
                            reference_image)
         output_in_code_block(prompt)
+        if token_type == "isometric_standee":
+            append_standee_warning()
         return
 
     # VTT modes only
