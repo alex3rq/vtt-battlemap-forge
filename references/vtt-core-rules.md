@@ -40,10 +40,137 @@ Creatures mentioned in the brief → convert to environmental storytelling props
 
 ## Grid Policy
 
-- Reference image includes grid → preserve original grid scale and alignment; integrate naturally into floor texture; keep subtle and readable.
-- No reference grid → include a subtle integrated square VTT grid unless user requests gridless.
-- User requests gridless → remove all visible grid lines.
-- Never add coordinates, labels, scale text, or measurements to the grid.
+**Default: No painted grid.** Generate all VTT maps without visible gridlines unless the user explicitly requests one. The VTT platform overlays its own crisp grid — a painted grid in the image will never align perfectly and adds visual noise.
+
+- User requests grid → paint a subtle integrated square grid across all walkable spaces; low contrast, integrated into floor texture; no coordinates, labels, or scale text.
+- Reference image includes a painted grid → count the visible columns and rows, record the cell count, then remove the grid from the output (paint over it). See Grid Dimensions Math below.
+- Never add coordinates, labels, scale text, or measurements to any grid.
+
+## Grid Dimensions Math
+
+Every VTT map output must specify a cell count and a target PPI so the user can configure their VTT correctly. This is how the image aligns to the platform grid — not by painting gridlines, but by making the math explicit.
+
+### Cell size by platform
+
+| VTT Platform | Cell size (px) | Notes |
+|---|---|---|
+| **Owlbear Rodeo** | **100px** | **Default.** Flexible range 70–150px; 100px is the sweet spot. Supports filename auto-alignment. |
+| Roll20 | 70px or 140px | Must be exactly one of these two values. Use 140px for high-res/retina maps. |
+| Foundry VTT | 100px | Flexible; 100px recommended. |
+| Fantasy Grounds | 100px | Flexible; 100px recommended. |
+| Generic / Unknown | 100px | Default. User can adjust in VTT. |
+
+Default platform: **Owlbear Rodeo** at **100px per cell** unless the user specifies otherwise.
+
+### Detecting VTT platform from user request
+
+```
+detect_vtt_platform(user_request):
+    "roll20", "Roll20"                    → cell_px = 70 (or 140 if "high-res" / "retina" mentioned)
+    "owlbear", "Owlbear Rodeo"            → cell_px = 100
+    "foundry", "Foundry VTT"              → cell_px = 100
+    "fantasy grounds", "Fantasy Grounds"  → cell_px = 100
+    none mentioned                        → cell_px = 100  [flag as assumed Owlbear default in output]
+```
+
+### Default cell counts by encounter type (no reference image)
+
+When no reference image is provided and the user does not specify dimensions, select defaults based on encounter type:
+
+| Encounter type | Default grid | Dimensions (at 100px) | Notes |
+|---|---|---|---|
+| Small room / tight encounter | 20×20 | 2000×2000px | Interior rooms, prison cells, shrines |
+| Medium dungeon / standard | 30×30 | 3000×3000px | Most VTT battlemaps |
+| Portrait map (taller than wide) | 20×30 | 2000×3000px | Trail maps, vertical corridors |
+| Wide map (wider than tall) | 30×20 | 3000×2000px | Riverbanks, road encounters, open fields |
+| Large set-piece / boss arena | 40×40 | 4000×4000px | Boss rooms, major landmarks |
+
+All defaults stay well under the 8000px long-edge limit for Owlbear Rodeo.
+
+### Calculating dimensions from a reference image with visible grid
+
+If the reference image contains a visible painted grid:
+
+```
+count_cells_from_reference(image):
+    cols = count visible grid columns
+    rows = count visible grid rows
+    cell_px = round(image_width / cols)      # estimated PPI from original
+
+    # Snap to platform cell size
+    target_px = detect_vtt_platform(user_request)   # e.g. 100
+
+    output_width  = cols × target_px
+    output_height = rows × target_px
+
+    # Validate long edge
+    if max(output_width, output_height) > 8000:
+        scale down cols/rows proportionally and flag warning
+
+    return cols, rows, output_width, output_height
+```
+
+If the grid is not clearly visible or countable → estimate from image proportions and typical encounter size. Flag result as **"estimated — verify in VTT"** in the output block.
+
+### Calculating dimensions from a reference image without visible grid
+
+Estimate cell count from image proportions matched to the nearest encounter type default. Flag as estimated in the output block.
+
+### VTT Import Output Block
+
+Every Generation and Prompt Mode output must end with this block:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VTT IMPORT
+  Suggested filename : BT_[MapConcept]_[cols]x[rows]
+  Grid               : [cols] columns × [rows] rows
+  Cell size          : [cell_px]px per cell  ([platform])
+  Image dimensions   : [width]×[height]px
+  No grid painted    : ✓  (enable grid in your VTT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Filename notes:
+- Use the map concept or location name for `[MapConcept]` — short, no spaces (use underscores).
+- If cell count was estimated from a gridless reference, append `_est`: `BT_Trail_14x21_est`
+- Do not include file extension — the image generator determines the format.
+- For Owlbear Rodeo: this filename enables automatic grid alignment on upload.
+
+Example outputs:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VTT IMPORT
+  Suggested filename : BT_Trail_14x21
+  Grid               : 14 columns × 21 rows
+  Cell size          : 100px per cell  (Owlbear Rodeo)
+  Image dimensions   : 1400×2100px
+  No grid painted    : ✓  (enable grid in your VTT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VTT IMPORT
+  Suggested filename : BT_CaveDungeon_32x24
+  Grid               : 32 columns × 24 rows
+  Cell size          : 100px per cell  (Owlbear Rodeo)
+  Image dimensions   : 3200×2400px
+  No grid painted    : ✓  (enable grid in your VTT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VTT IMPORT
+  Suggested filename : BT_VolcanicForge_20x20
+  Grid               : 20 columns × 20 rows
+  Cell size          : 70px per cell  (Roll20)
+  Image dimensions   : 1400×1400px
+  No grid painted    : ✓  (enable grid in your VTT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 ## Contrast Policy
 
@@ -212,7 +339,9 @@ Before producing any VTT output, verify the applicable items.
 - [ ] Contrast is soft-to-balanced unless style or user requires otherwise
 - [ ] Reference layout and dimensions preserved exactly (if provided)
 - [ ] Map is fully top-down orthographic
-- [ ] Grid is subtle and integrated (or removed if user requested gridless)
+- [ ] Grid is NOT painted unless user explicitly requested it (default: no painted grid)
+  - If grid was requested: subtle, integrated, low contrast, no labels
+  - VTT Import block is present at the end of output with filename, cell count, cell size, and dimensions
 - [ ] No visible text, labels, numbers, or UI elements
 - [ ] Walkable spaces are clear and unobstructed
 - [ ] Entrances, landmarks, and key features are readable

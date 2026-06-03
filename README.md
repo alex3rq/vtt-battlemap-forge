@@ -51,8 +51,10 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 - **DM variant** — Optional creature and NPC placement layer for Prompt, Generation, and Scene Art modes. Player-facing by default; DM variant activated on request
 - **17 aesthetic styles** — Naturalistic Hand-Painted, Baldur's Gate 3-like, Diablo-like, FF14-like, Darkest Dungeon-like, WoW-like, Watercolor, 3D Render, and more
 - **11 environment presets** — Ancient Ruins, Natural Caves, Aquatic, Urban/Sewer, Arctic, Jungle, Volcanic, Swamp, Desert, Forest, Arcane/Planar
-- **VTT-native defaults** — Top-down orthographic perspective, subtle integrated grid, no visible creatures or text, balanced contrast for long sessions
-- **Reference image as layout lock** — Reference image is source of truth for geometry, preserving all room shapes, corridor widths, and grid alignment
+- **VTT-native defaults** — Top-down orthographic perspective, no painted grid (VTT overlays its own), no visible creatures or text, balanced contrast for long sessions
+- **VTT Import block** — Every map output includes a ready-to-use filename (`BT_MapName_32x24`), cell count, cell size per platform, and pixel dimensions. Owlbear Rodeo auto-aligns on upload when the filename convention is used
+- **Multi-platform grid math** — Owlbear Rodeo (100px, default), Roll20 (70px / 140px), Foundry VTT, Fantasy Grounds. Cell count is derived from reference image gridlines or from encounter-type defaults; dimensions are always integers
+- **Reference image as layout lock** — Reference image is source of truth for geometry, preserving all room shapes, corridor widths, and topology. If the reference has a painted grid, the skill counts the cells and removes the painted grid from the output
 - **Scene Art with zone context** — Cinematic non-map illustrations grounded in the same environment and style; supports zone labels, adjacent area descriptions, map reference images, and moment suggestions
 - **Contrast policy per style** — Soft-to-balanced for most styles, high contrast for Diablo-like/Grimdark/Darkest Dungeon/Noir
 
@@ -60,8 +62,9 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 
 | Prompt | Result |
 |--------|--------|
-| "Write a prompt for an ancient ruins map, FF14 style" | Returns a compact image-generation prompt in a code block |
-| "Generate a jungle beach battlemap, Baldur's Gate 3 style" | Creates a VTT-ready battlemap image directly |
+| "Write a prompt for an ancient ruins map, FF14 style" | Returns a compact image-generation prompt in a code block + VTT Import block with filename and cell count |
+| "Generate a jungle beach battlemap, Baldur's Gate 3 style" | Creates a VTT-ready battlemap image + `BT_JungleBeach_30x20` filename suggestion for Owlbear auto-alignment |
+| "Generate a cave map for Roll20" | Generates at 70px per cell (Roll20 standard), outputs exact pixel dimensions and cell count |
 | "Brighten the altar room and add more rubble" | Applies a targeted correction to a previously generated map |
 | "Create splash art for the volcanic forge — player-facing" | Returns a cinematic scene illustration prompt from the map's environment and style |
 | "Create a token for a dragonborn paladin, WoW-like style" | Returns a face-first Portrait/Pog token prompt with circular frame and border breakout |
@@ -123,8 +126,9 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 > 1. Select Style D (Diablo-like) + Environment 7 (Volcanic/Infernal)
 > 2. Apply dramatic lava-lit ambient with near-black upper shadows
 > 3. Include obsidian slag, scorch marks, ash deposits, iron chains
-> 4. Generate a top-down 2048x2048 image with subtle integrated grid
+> 4. Generate a top-down 3000×3000px image (30×30 cells at 100px) — no painted grid
 > 5. Ensure no visible creatures, text, or UI elements
+> 6. Output VTT Import block: `BT_VolcanicForge_30x30`, 100px/cell, Owlbear Rodeo
 
 **Example — Correction Mode:**
 
@@ -225,7 +229,7 @@ ln -sfn ~/skills/vtt-battlemap-forge ~/.cursor/skills/vtt-battlemap-forge      #
 
 ## How It Works
 
-vtt-battlemap-forge selects one of five modes based on user intent, picks an aesthetic style (default: Naturalistic Hand-Painted) and environment preset (derived from concept), then applies VTT domain rules — top-down orthographic perspective, subtle grid, contrast policy, creature-to-prop conversion table, and environment-specific prop catalog — to produce a map or prompt. Scene Art Mode follows a separate cinematic flow: moment suggestions, camera selection, and non-top-down illustration prompts grounded in the same environment and style. Token Mode creates one of four token types — Portrait/Pog (circular framed face-first bust), Top-Down (overhead bird's-eye silhouette), Isometric/Standee (2.5D upright standee), or Frameless Portrait (borderless bust with vignette edge) — each with its own composition rules, background strategy, and prompt template. An optional DM variant adds creature and NPC placement to Prompt, Generation, and Scene Art outputs.
+vtt-battlemap-forge selects one of five modes based on user intent, picks an aesthetic style (default: Style B) and environment preset (derived from concept), then applies VTT domain rules — top-down orthographic perspective, no painted grid by default, contrast policy, creature-to-prop conversion table, and environment-specific prop catalog — to produce a map or prompt. Every map output includes a VTT Import block with a ready-to-use filename (`BT_MapName_ColsxRows`), cell count, cell size per platform, and pixel dimensions calculated so columns and rows are always whole integers. Owlbear Rodeo (default, 100px/cell), Roll20 (70px or 140px), Foundry VTT, and Fantasy Grounds are supported; platform is detected from the user's request or defaults to Owlbear. When a reference image with a visible painted grid is provided, the skill counts the cells automatically, removes the painted grid, and outputs clean dimensions. Scene Art Mode follows a separate cinematic flow: moment suggestions, camera selection, and non-top-down illustration prompts grounded in the same environment and style. Token Mode creates one of four token types — Portrait/Pog (circular framed face-first bust), Top-Down (overhead bird's-eye silhouette), Isometric/Standee (2.5D upright standee), or Frameless Portrait (borderless bust with vignette edge) — each with its own composition rules, background strategy, and prompt template. An optional DM variant adds creature and NPC placement to Prompt, Generation, and Scene Art outputs.
 
 → [Full SKILL.md](SKILL.md) for the complete rule set
 
@@ -236,7 +240,7 @@ SKILL.md                              — Execution procedure, VTT rules, mode s
 references/
   aesthetic-styles.md                 — 17 aesthetic rendering styles with aliases, palettes, and best-use guidance
   environment-presets.md              — 11 environment presets with terrain, props, palette, and lighting defaults
-  vtt-core-rules.md                   — Perspective, grid, contrast, creatures, lighting, traps, correction rules, DM map variant, quality checklist
+  vtt-core-rules.md                   — Perspective, grid policy (no painted grid default), Grid Dimensions Math (VTT platform cell sizes, cell counting from reference images, VTT Import block), contrast, creatures, lighting, traps, correction rules, DM map variant, quality checklist
   prompt-templates.md                 — Compact and Verbose prompt templates (player and DM variants)
   scene-art-mode.md                   — Scene Art flow, moment suggestions, cinematic prompt template, camera guide, spoiler policy (player and DM variants)
   token-mode.md                       — Token type selection (Portrait/Pog, Top-Down, Isometric/Standee, Frameless Portrait), composition rules per type, border breakout (Portrait/Pog), frame rules, background strategy with post-process guidance, prompt templates per type, quality checklist

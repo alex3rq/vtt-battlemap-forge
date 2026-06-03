@@ -75,6 +75,15 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
     env = select_environment(user_request)
     # Default: derive from concept, or generic stone/earth dungeon
 
+    # 5. VTT platform and cell dimensions
+    platform, cell_px = detect_vtt_platform(user_request)
+    # Default: Owlbear Rodeo, 100px per cell
+    # See references/vtt-core-rules.md — Grid Dimensions Math
+
+    # 6. Grid painted — default OFF
+    paint_grid = user_explicitly_requested_grid(user_request)
+    # Only paint a grid if user says "with grid", "show the grid", etc.
+
     if mode == "scene_art":
         load(references/scene-art-mode.md)
         execute_scene_art_flow(user_request, style, env, dm_mode,
@@ -104,25 +113,29 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
     if mode == "prompt":
         load(references/prompt-templates.md)
         variant = "dm" if dm_mode else "player"
-        # reference_image here = layout-lock source OR visual continuity anchor
-        # See references/prompt-templates.md — Continuity Reference note
+        dims = snap_to_cell_grid(reference_image, user_request, cell_px)
         prompt = build_prompt(user_request, style, env, detail, lighting,
-                              reference_image, variant, creature_images)
+                              reference_image, variant, creature_images, dims)
         output_in_code_block(prompt)
+        output_vtt_import_block(dims, platform, cell_px, map_concept, paint_grid)
 
     elif mode == "generation":
         assert_perspective_rules()
-        apply_grid_policy(reference_image)
+        dims = snap_to_cell_grid(reference_image, user_request, cell_px)
+        # dims = { cols, rows, width_px, height_px, estimated: bool }
+        # See references/vtt-core-rules.md — Grid Dimensions Math
+        apply_grid_policy(reference_image, paint_grid)
         apply_contrast_policy(style)
         apply_environmental_dressing(env, detail)
         if reference_image:
-            preserve_layout_and_dimensions_exactly(reference_image)
+            preserve_layout_and_topology_exactly(reference_image)
+            # dimensions come from snap_to_cell_grid, not raw image size
         if dm_mode:
             apply_dm_creature_layer(user_request, creature_images)
-            # See references/vtt-core-rules.md — DM Map Variant
         else:
             assert_no_text_or_creatures()
-        generate_image()
+        generate_image(dims)
+        output_vtt_import_block(dims, platform, cell_px, map_concept, paint_grid)
 
     elif mode == "correction":
         apply_correction(user_request, previous_result)
@@ -138,11 +151,12 @@ Every VTT output (Prompt, Generation, Correction) must prioritize, in this order
 
 1. Player-facing usability
 2. Tactical readability and clear walkable spaces
-3. Subtle, integrated grid
+3. No painted grid by default — VTT overlays its own grid
 4. Clean top-down orthographic presentation
 5. Long-session visual comfort
 6. Controlled prop density
 7. Professional quality appropriate to chosen style
+8. VTT Import block always present at end of output (filename, cell count, cell size, dimensions)
 
 **Gameplay clarity beats cinematic drama** unless the chosen style explicitly calls for dramatic presentation (Diablo-like, Darkest Dungeon-like, Grimdark).
 
@@ -162,17 +176,19 @@ Exception: image edges may be blended or extended to create a believable border 
 
 **VTT map modes only (Prompt, Generation, Correction).** Scene Art has its own dimension defaults — see `references/scene-art-mode.md`.
 
-If reference image provided → match exact dimensions and aspect ratio.
+If reference image provided → count grid cells from visible gridlines (if present) to derive exact column/row count, then calculate output dimensions as `cols × cell_px` and `rows × cell_px` using the target platform cell size. If no grid visible, estimate from proportions and flag as estimated. See `references/vtt-core-rules.md` — Grid Dimensions Math.
 
 If no reference image:
 
-| Format | Ratio | Recommended Use |
-|---|---|---|
-| Square | 1:1 (e.g. 2048×2048) | **Default.** Works on all VTT setups |
-| Wide Rectangle | 4:3 (e.g. 2048×1536) | Wider encounter spaces, rectangular rooms |
-| Landscape | 16:9 | Avoid unless encounter explicitly spans horizontal space |
+| Format | Grid | Dimensions (100px/cell) | Recommended Use |
+|---|---|---|---|
+| Square | 20×20 | 2000×2000px | **Default.** Small rooms, shrines, interior encounters |
+| Square medium | 30×30 | 3000×3000px | Most VTT battlemaps |
+| Portrait | 20×30 | 2000×3000px | Trail maps, vertical corridors |
+| Wide | 30×20 | 3000×2000px | Road encounters, riverbanks, open fields |
+| Large | 40×40 | 4000×4000px | Boss arenas, major set-pieces |
 
-Default to **Square 1:1** unless the concept clearly requires a different shape.
+Default to **30×30 at 100px (3000×3000px)** for a standard battlemap with no other context. All values stay under the 8000px long-edge limit for Owlbear Rodeo.
 
 ## Style and Environment Selection
 

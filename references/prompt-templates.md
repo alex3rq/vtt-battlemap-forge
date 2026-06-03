@@ -17,14 +17,17 @@ Return only the final prompt inside a **code block**. Output nothing else unless
 
 ```
 Use the provided reference image as a layout-locked paint-over/redraw.
-Preserve all geometry, topology, room shapes, corridor widths, entrances, exits, stairs, bridges, grid alignment, and overall playable structure exactly. Match the image's exact dimensions and aspect ratio.
+Preserve all geometry, topology, room shapes, corridor widths, entrances, exits, stairs, bridges, grid alignment, and overall playable structure exactly.
 Apply environmental dressing and style only. Do not redesign, move walls, add or remove paths, rotate, or rescale.
+If the reference image contains painted gridlines, remove them from the output — do not reproduce the painted grid.
 
 Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
 Lighting: [LIGHTING]
 Detail intensity: [LOW / MEDIUM / HIGH]
 Contrast: [SOFT / BALANCED / HIGH — note if overriding default]
+Dimensions: [cols]×[rows] cells at [cell_px]px per cell = [width]×[height]px
+No painted grid: export without gridlines — VTT will overlay its own grid
 
 Map-wide details:
 [GENERAL ENVIRONMENT, MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD]
@@ -45,7 +48,8 @@ Important:
 Generate an original top-down orthographic VTT battlemap.
 
 Concept: [MAP CONCEPT / AREA TYPE]
-Dimensions: [ASPECT RATIO — e.g., Square 1:1 at 2048×2048]
+Dimensions: [cols]×[rows] cells at [cell_px]px per cell = [width]×[height]px
+No painted grid: export without gridlines — VTT will overlay its own grid
 
 Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
@@ -105,10 +109,11 @@ Fully top-down orthographic. No isometric view, no angled or tilted camera, no h
 
 [If reference image provided:]
 LAYOUT — LOCKED:
-Use the provided reference image as an absolute layout lock. Preserve all geometry, room shapes, corridor widths, wall placement, stairs, bridges, entrances, exits, grid alignment, and overall playable structure exactly. Match the image dimensions and aspect ratio exactly. Do not redesign, move walls, add or remove paths, rotate, crop, or rescale. Environmental dressing only.
+Use the provided reference image as an absolute layout lock. Preserve all geometry, room shapes, corridor widths, wall placement, stairs, bridges, entrances, exits, and overall playable structure exactly. Do not redesign, move walls, add or remove paths, rotate, crop, or rescale. Environmental dressing only.
+If the reference image contains painted gridlines, do NOT reproduce them — remove the painted grid from the output.
 
 [If no reference image:]
-DIMENSIONS: [e.g., Square 1:1, 2048×2048]
+DIMENSIONS: [cols] columns × [rows] rows at [cell_px]px per cell = [width]×[height]px total
 LAYOUT: [MAP LAYOUT DESCRIPTION — room count, arrangement, key spatial features]
 
 AESTHETIC STYLE: [FULL AESTHETIC STYLE DESCRIPTION]
@@ -121,8 +126,8 @@ CONTRAST:
 [Override here if style or user requires high contrast]
 
 GRID:
-[Default: Include a subtle integrated square VTT grid across all walkable spaces. Low contrast, integrated into floor texture. No coordinates, labels, or scale text.]
-[Override: No grid — if user requested gridless]
+[Default: No painted grid. Export without visible gridlines — the VTT will overlay its own grid for perfect alignment.]
+[Override: Include a subtle integrated square VTT grid — only if user explicitly requested it. Low contrast, integrated into floor texture. No coordinates, labels, or scale text.]
 
 TEXT AND LABELS:
 Do not render any text, letters, numbers, room names, compass roses, scale bars, or UI elements of any kind.
@@ -144,7 +149,7 @@ CRITICAL RULES:
 - No pitch-black areas that hide gameplay space
 - No visible creatures, text, labels, or UI elements
 - Contrast policy must be followed as specified above
-- If reference image is provided, preserve layout and dimensions exactly
+- If reference image is provided, preserve layout and topology exactly; dimensions are set by cell count above
 ```
 
 ---
@@ -157,14 +162,17 @@ DM variants add a **Creatures** section to the standard templates. All other sec
 
 ```
 Use the provided reference image as a layout-locked paint-over/redraw.
-Preserve all geometry, topology, room shapes, corridor widths, entrances, exits, stairs, bridges, grid alignment, and overall playable structure exactly. Match the image's exact dimensions and aspect ratio.
+Preserve all geometry, topology, room shapes, corridor widths, entrances, exits, stairs, bridges, and overall playable structure exactly.
 Apply environmental dressing, style, and creature placement only. Do not redesign, move walls, add or remove paths, rotate, or rescale.
+If the reference image contains painted gridlines, remove them from the output — do not reproduce the painted grid.
 
 Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
 Lighting: [LIGHTING]
 Detail intensity: [LOW / MEDIUM / HIGH]
 Contrast: [SOFT / BALANCED / HIGH — note if overriding default]
+Dimensions: [cols]×[rows] cells at [cell_px]px per cell = [width]×[height]px
+No painted grid: export without gridlines — VTT will overlay its own grid
 
 Map-wide details:
 [GENERAL ENVIRONMENT, MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD]
@@ -193,7 +201,8 @@ Important:
 Generate an original top-down orthographic VTT battlemap — DM version with creature placement.
 
 Concept: [MAP CONCEPT / AREA TYPE]
-Dimensions: [ASPECT RATIO — e.g., Square 1:1 at 2048×2048]
+Dimensions: [cols]×[rows] cells at [cell_px]px per cell = [width]×[height]px
+No painted grid: export without gridlines — VTT will overlay its own grid
 
 Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
@@ -238,10 +247,11 @@ Fully top-down orthographic. No isometric view, no angled or tilted camera, no h
 
 [If reference image provided:]
 LAYOUT — LOCKED:
-Use the provided reference image as an absolute layout lock. Preserve all geometry, room shapes, corridor widths, wall placement, stairs, bridges, entrances, exits, grid alignment, and overall playable structure exactly. Match the image dimensions and aspect ratio exactly. Do not redesign, move walls, add or remove paths, rotate, crop, or rescale. Environmental dressing and creature placement only.
+Use the provided reference image as an absolute layout lock. Preserve all geometry, room shapes, corridor widths, wall placement, stairs, bridges, entrances, exits, and overall playable structure exactly. Do not redesign, move walls, add or remove paths, rotate, crop, or rescale. Environmental dressing and creature placement only.
+If the reference image contains painted gridlines, do NOT reproduce them — remove the painted grid from the output.
 
 [If no reference image:]
-DIMENSIONS: [e.g., Square 1:1, 2048×2048]
+DIMENSIONS: [cols] columns × [rows] rows at [cell_px]px per cell = [width]×[height]px total
 LAYOUT: [MAP LAYOUT DESCRIPTION — room count, arrangement, key spatial features]
 
 AESTHETIC STYLE: [FULL AESTHETIC STYLE DESCRIPTION]
@@ -254,8 +264,8 @@ CONTRAST:
 [Override here if style or user requires high contrast]
 
 GRID:
-[Default: Include a subtle integrated square VTT grid across all walkable spaces. Low contrast, integrated into floor texture. No coordinates, labels, or scale text.]
-[Override: No grid — if user requested gridless]
+[Default: No painted grid. Export without visible gridlines — the VTT will overlay its own grid for perfect alignment.]
+[Override: Include a subtle integrated square VTT grid — only if user explicitly requested it. Low contrast, integrated into floor texture. No coordinates, labels, or scale text.]
 
 TEXT AND LABELS:
 Do not render any text, letters, numbers, room names, compass roses, scale bars, or UI elements of any kind. Do not render creature name labels.
@@ -284,7 +294,7 @@ CRITICAL RULES:
 - No visible text, labels, creature names, or UI elements
 - Creature scale must match grid scale
 - Contrast policy must be followed as specified above
-- If reference image is provided, preserve layout and dimensions exactly
+- If reference image is provided, preserve layout and topology exactly; dimensions are set by cell count above
 ```
 
 ---
