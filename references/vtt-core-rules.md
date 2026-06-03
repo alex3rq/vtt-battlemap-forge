@@ -192,6 +192,8 @@ User provides lighting → use exactly. Otherwise select readable atmospheric li
 
 **Default:** Soft ambient light, restrained shadows, no pitch-black areas, no blown highlights, clear walkable spaces.
 
+**High detail intensity addition:** Apply ambient occlusion — micro-shadows under every individual pebble, root, blade of grass, and debris asset. Use directional shading to define elevation breaks and slopes organically. Volumetric light shafts where the environment supports them (forest canopy, cave openings, broken ruins). These depth cues replace the need for painted elevation lines.
+
 | Environment | Default Lighting |
 |---|---|
 | Cave / Dungeon | Dim ambient cave light, faint warm highlights near inhabited areas, cool shadowed recesses |
@@ -236,7 +238,33 @@ Entrances and important landmarks may receive slightly stronger focal emphasis. 
 
 Do not create new paths unless the reference already shows them.
 
+## Reference Image: Blueprint Protocol
+
+When a reference image is provided, apply the two-pass model:
+
+**Structure (preserve exactly):** path routing, cliff-line tiers, clearing shapes, rock/object coordinates, room boundaries, corridor widths, entrances, exits, stairs, bridges, elevation breaks, and navigation flow.
+
+**Surface (replace entirely):** erase all source visual content — art style, painted textures, ink linework, flat colors, illustrative details. Rebuild from scratch using the target aesthetic style and environment assets.
+
+### Negative prompt block — source style erasure
+
+Inject when the reference has a distinct illustrative art style (hand-drawn, cartoon, ink linework, stylized cross-hatching, flat painted) that differs from the target:
+
+```
+No hand-drawn linework, no baked-in ink contours, no stylized cross-hatching, no cartoon borders, no trace of the original map's illustrative texture or flat painted surfaces.
+```
+
+### Grid artifact rejection — always inject when reference has a painted grid
+
+```
+Completely ignore the reference image's gridlines. Do not interpret grid lines as cracks, paths, stone edges, texture boundaries, or terrain features. The final output must have an uninterrupted, seamless floor surface.
+```
+
 ## Handling Readable Text in Source
+
+If reference image contains title text, compass, scale text, room labels, numbers, or visible annotations → remove all from final output. Replace with blank terrain, natural texture, or abstract decorative shapes.
+
+Assume all visible labels and map UI should be removed for the player-facing map.
 
 If reference image contains title text, compass, scale text, room labels, numbers, or visible annotations → remove all from final output. Replace with blank terrain, natural texture, or abstract decorative shapes.
 

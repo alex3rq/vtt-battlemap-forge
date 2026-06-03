@@ -16,10 +16,15 @@ Return only the final prompt inside a **code block**. Output nothing else unless
 ## Compact Prompt — With Reference Image
 
 ```
-Use the provided reference image as a layout-locked paint-over/redraw.
-Preserve all geometry, topology, room shapes, corridor widths, entrances, exits, stairs, bridges, grid alignment, and overall playable structure exactly.
-Apply environmental dressing and style only. Do not redesign, move walls, add or remove paths, rotate, or rescale.
-If the reference image contains painted gridlines, remove them from the output — do not reproduce the painted grid.
+Treat the reference image as a spatial blueprint only — preserve structure, replace all surfaces.
+
+STRUCTURE (preserve exactly): path routing, cliff-line tiers, clearing shapes, rock/object coordinates, room boundaries, corridor widths, entrances, exits, stairs, bridges, elevation breaks, and navigation flow. Maintain identical aspect ratio.
+
+SURFACE (replace entirely): erase all source visual content — art style, painted textures, ink linework, flat colors, illustrative details. Rebuild all surfaces from scratch using the target aesthetic style and environment assets below.
+
+NEGATIVE (source style): No hand-drawn linework, no baked-in ink contours, no stylized cross-hatching, no cartoon borders, no trace of the original map's illustrative texture or flat painted surfaces.
+
+GRID REJECTION: Completely ignore the reference image's gridlines. Do not interpret grid lines as cracks, paths, stone edges, texture boundaries, or terrain features. Output must have an uninterrupted, seamless floor surface.
 
 Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
@@ -108,9 +113,12 @@ PERSPECTIVE:
 Fully top-down orthographic. No isometric view, no angled or tilted camera, no horizon line, no perspective distortion, no depth-of-field effects.
 
 [If reference image provided:]
-LAYOUT — LOCKED:
-Use the provided reference image as an absolute layout lock. Preserve all geometry, room shapes, corridor widths, wall placement, stairs, bridges, entrances, exits, and overall playable structure exactly. Do not redesign, move walls, add or remove paths, rotate, crop, or rescale. Environmental dressing only.
-If the reference image contains painted gridlines, do NOT reproduce them — remove the painted grid from the output.
+BLUEPRINT PROTOCOL:
+Treat the reference image as a spatial blueprint only — preserve structure, replace all surfaces.
+STRUCTURE (preserve exactly): path routing, room shapes, corridor widths, wall placement, stairs, bridges, entrances, exits, elevation breaks, and navigation flow. Maintain identical aspect ratio.
+SURFACE (replace entirely): erase all source visual content — art style, painted textures, ink linework, flat colors, illustrative details. Rebuild all surfaces from scratch using the aesthetic style and environment specified below.
+NEGATIVE (source style): No hand-drawn linework, no baked-in ink contours, no stylized cross-hatching, no cartoon borders, no trace of the original map's illustrative texture or flat painted surfaces.
+GRID REJECTION: Completely ignore the reference image's gridlines. Do not interpret grid lines as cracks, paths, stone edges, texture boundaries, or terrain features. Output must have an uninterrupted, seamless floor surface.
 
 [If no reference image:]
 DIMENSIONS: [cols] columns × [rows] rows at [cell_px]px per cell = [width]×[height]px total
@@ -161,10 +169,15 @@ DM variants add a **Creatures** section to the standard templates. All other sec
 ### DM Compact Prompt — With Reference Image
 
 ```
-Use the provided reference image as a layout-locked paint-over/redraw.
-Preserve all geometry, topology, room shapes, corridor widths, entrances, exits, stairs, bridges, and overall playable structure exactly.
-Apply environmental dressing, style, and creature placement only. Do not redesign, move walls, add or remove paths, rotate, or rescale.
-If the reference image contains painted gridlines, remove them from the output — do not reproduce the painted grid.
+Treat the reference image as a spatial blueprint only — preserve structure, replace all surfaces.
+
+STRUCTURE (preserve exactly): path routing, cliff-line tiers, clearing shapes, rock/object coordinates, room boundaries, corridor widths, entrances, exits, stairs, bridges, elevation breaks, and navigation flow. Maintain identical aspect ratio.
+
+SURFACE (replace entirely): erase all source visual content — art style, painted textures, ink linework, flat colors, illustrative details. Rebuild all surfaces from scratch using the target aesthetic style and environment assets below.
+
+NEGATIVE (source style): No hand-drawn linework, no baked-in ink contours, no stylized cross-hatching, no cartoon borders, no trace of the original map's illustrative texture or flat painted surfaces.
+
+GRID REJECTION: Completely ignore the reference image's gridlines. Do not interpret grid lines as cracks, paths, stone edges, texture boundaries, or terrain features. Output must have an uninterrupted, seamless floor surface.
 
 Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
@@ -246,9 +259,12 @@ PERSPECTIVE:
 Fully top-down orthographic. No isometric view, no angled or tilted camera, no horizon line, no perspective distortion, no depth-of-field effects.
 
 [If reference image provided:]
-LAYOUT — LOCKED:
-Use the provided reference image as an absolute layout lock. Preserve all geometry, room shapes, corridor widths, wall placement, stairs, bridges, entrances, exits, and overall playable structure exactly. Do not redesign, move walls, add or remove paths, rotate, crop, or rescale. Environmental dressing and creature placement only.
-If the reference image contains painted gridlines, do NOT reproduce them — remove the painted grid from the output.
+BLUEPRINT PROTOCOL:
+Treat the reference image as a spatial blueprint only — preserve structure, replace all surfaces.
+STRUCTURE (preserve exactly): path routing, room shapes, corridor widths, wall placement, stairs, bridges, entrances, exits, elevation breaks, and navigation flow. Maintain identical aspect ratio.
+SURFACE (replace entirely): erase all source visual content — art style, painted textures, ink linework, flat colors, illustrative details. Rebuild all surfaces from scratch using the aesthetic style and environment specified below.
+NEGATIVE (source style): No hand-drawn linework, no baked-in ink contours, no stylized cross-hatching, no cartoon borders, no trace of the original map's illustrative texture or flat painted surfaces.
+GRID REJECTION: Completely ignore the reference image's gridlines. Do not interpret grid lines as cracks, paths, stone edges, texture boundaries, or terrain features. Output must have an uninterrupted, seamless floor surface.
 
 [If no reference image:]
 DIMENSIONS: [cols] columns × [rows] rows at [cell_px]px per cell = [width]×[height]px total

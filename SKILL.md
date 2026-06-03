@@ -162,9 +162,31 @@ Every VTT output (Prompt, Generation, Correction) must prioritize, in this order
 
 ## Reference Image Priority
 
-If a reference image is provided, it is the absolute source of truth for: layout, geometry, topology, room shapes, cave silhouettes, wall placement, corridor width, path placement, entrances, exits, stairs, bridges, elevation cues, inset rooms, separated regions, overall playable structure, grid scale, grid alignment, and image dimensions/aspect ratio.
+If a reference image is provided, treat it as a **spatial blueprint only** — a 2D coordinate map for layout boundaries. It is the absolute source of truth for: geometry, topology, room shapes, cave silhouettes, wall placement, corridor width, path placement, entrances, exits, stairs, bridges, elevation cues, inset rooms, separated regions, overall playable structure, and navigation flow.
 
-Treat as a professional paint-over, redraw, or style transfer.
+**Do NOT treat it as a paint-over, redraw, or style transfer.** The reference image's visual content — its art style, surface textures, linework, and colors — must be completely replaced. Only the spatial structure is preserved.
+
+### Two-pass model: Structure vs. Surface
+
+**Structure (preserve exactly):**
+S-curve and path routing, cliff-line tiers, clearing shapes, rock formation coordinates, room boundaries, corridor widths, entrances, exits, stairs, bridges, elevation breaks, and navigation flow.
+
+**Surface (replace entirely):**
+All internal visual content must be rebuilt from scratch. Erase the source image's art style and generate entirely new, high-fidelity textures appropriate to the target aesthetic style and environment. The reference image's painted surfaces, flat colors, and illustrative details are not carried over.
+
+### Source style erasure (conditional)
+
+When the reference image has a distinct illustrative art style (hand-drawn, cartoon, ink linework, stylized cross-hatching, flat painted) that differs from the target aesthetic style, inject these negative instructions:
+
+> No hand-drawn linework, no baked-in ink contours, no stylized cross-hatching, no cartoon borders, no trace of the original map's illustrative texture or flat painted surfaces.
+
+When the reference is already a photorealistic or high-fidelity render, source style erasure is not needed.
+
+### Grid artifact rejection
+
+Reference images frequently contain painted gridlines. Explicitly instruct the generation engine:
+
+> Completely ignore the reference image's gridlines. Do not interpret grid lines as cracks, paths, stone edges, texture boundaries, or terrain features. The final output must have an uninterrupted, seamless floor surface.
 
 **Do NOT:** redesign the map, invent new rooms, remove existing areas, move walls, widen/narrow corridors, add/remove paths, rotate/crop/rescale the map, or block gameplay paths with oversized props.
 
@@ -222,4 +244,4 @@ If user does not specify, use **Medium**.
 |---|---|---|
 | **Low** | low, sparse, clean, minimal props, maximum readability | Sparse props, essential storytelling only, clean walkable spaces. Best for small rooms, narrow corridors, complex layouts. |
 | **Medium** *(default)* | medium, balanced, normal, readable detail | Balanced environmental storytelling, readable prop placement, clear walkable spaces. Best for most VTT battlemaps. |
-| **High** | high, rich, decorative, premium detail, atmospheric detail | Rich surface texture, layered debris, strong visual storytelling. Paths, doorways, stairs, bridges, and combat spaces must remain readable. Best for boss arenas, scenic ruins, set-piece locations. |
+| **High** | high, rich, decorative, premium detail, atmospheric detail, photorealistic, cinematic | Full photogrammetry-quality asset pass. Rebuild surfaces from scratch with high-density, layered textures. Apply ambient occlusion — micro-shadows under every individual pebble, root, blade of grass, and debris asset. Use directional lighting to define elevation breaks and slopes organically. Volumetric light shafts where applicable. High material fidelity: distinct rock face geology, procedural mud or stone surface variation, multi-toned groundcover. Paths, doorways, stairs, bridges, and combat spaces must remain readable. Best for boss arenas, scenic set-pieces, showcase maps, and any map where visual richness is the primary goal. |
