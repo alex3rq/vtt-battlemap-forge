@@ -1,6 +1,6 @@
 ---
 name: vtt-battlemap-forge
-description: "Unified VTT battlemap, token, and scene-art assistant. Five modes — Prompt (convert description into image-generation prompt), Generation (create player-facing VTT battlemap), Correction (targeted fix to previously generated map), Scene Art (cinematic key-art / scene illustration prompts based on map environment and moments), Token (VTT tokens for creatures, NPCs, and monsters — four types: Portrait/Pog, Frameless Portrait, Top-Down, Isometric/Standee). Prompt, Generation, and Scene Art modes support an optional DM variant that includes creature and NPC placement. Player-facing is always the default. Use when user asks to create, generate, or fix a battlemap, dungeon map, encounter map, or VTT map; asks for splash art, key art, scene illustration, or cinematic view of a map location; or asks for a VTT token, creature token, NPC token, or character portrait token. Supports 17 aesthetic styles and 11 environment presets."
+description: "Unified VTT battlemap, token, and scene-art assistant. Five modes — Prompt (convert description into image-generation prompt), Generation (create player-facing VTT battlemap), Correction (targeted fix to previously generated map), Scene Art (cinematic key-art / scene illustration prompts based on map environment and moments), Token (VTT tokens for creatures, NPCs, and monsters — four types: Portrait/Pog, Frameless Portrait, Top-Down, Isometric/Standee). Prompt, Generation, and Scene Art modes support an optional DM variant that includes creature and NPC placement. Player-facing is always the default. Use when user asks to create, generate, or fix a battlemap, dungeon map, encounter map, or VTT map; asks for splash art, key art, scene illustration, or cinematic view of a map location; or asks for a VTT token, creature token, NPC token, or character portrait token. Supports 18 aesthetic styles and 11 environment presets."
 license: MIT
 metadata:
   version: "2.0"
@@ -16,7 +16,7 @@ Load only the references needed for the active mode. Do not load all files by de
 
 | File | Purpose | Load when |
 |---|---|---|
-| `references/aesthetic-styles.md` | 17 rendering style definitions | Any mode requiring style selection |
+| `references/aesthetic-styles.md` | 18 rendering style definitions | Any mode requiring style selection |
 | `references/environment-presets.md` | 11 biome/terrain presets | Any mode requiring environment selection |
 | `references/vtt-core-rules.md` | Perspective, grid, contrast, creatures, lighting, traps, correction rules, DM map variant, quality checklist | Prompt, Generation, or Correction mode |
 | `references/prompt-templates.md` | Compact and Verbose prompt templates — player and DM variants | Prompt mode only |
@@ -69,7 +69,7 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
 
     # 3. Style — references/aesthetic-styles.md
     style = select_aesthetic(user_request)
-    # Default: Style B
+    # Default: Style R (Premium Painterly Tactical)
 
     # 4. Environment — references/environment-presets.md
     env = select_environment(user_request)
@@ -217,14 +217,17 @@ Default to **30×30 at 100px (3000×3000px)** for a standard battlemap with no o
 1. User names specific style letter or environment number → use exactly
 2. User names style alias → match via reference files
 3. User names only aesthetic → pair with environment best matching map concept
-4. User names only environment → pair with Style B (default)
-5. User names neither → Style B + environment best matching concept
+4. User names only environment → pair with Style R (Premium Painterly Tactical)
+5. User names neither → Style R + environment best matching concept
 6. No environment apparent → generic stone/earth dungeon
 
 ### Combination Examples
 
 | Request | Aesthetic | Environment |
 |---|---|---|
+| "painterly forest trail" | Style R (Default) | Env 10 (Forest) |
+| "premium cave encounter" | Style R (Default) | Env 2 (Cave) |
+| "illustrated ruins" | Style R (Default) | Env 1 (Ruins) |
 | "gritty jungle cave" | Style J (Gritty Dark Fantasy) | Env 2 (Cave) + 6 (Jungle) blend |
 | "grimdark swamp" | Style G (Grimdark) | Env 8 (Swamp) |
 | "WoW-style frozen ruins" | Style W (WoW-like) | Env 5 (Arctic) + 1 (Ruins) blend |
@@ -234,7 +237,7 @@ Default to **30×30 at 100px (3000×3000px)** for a standard battlemap with no o
 | "ink parchment cave" | Style I (Ink & Parchment) | Env 2 (Cave) |
 | "FF14 ancient ruins" | Style F (FF14-like) | Env 1 (Ruins) |
 | "darkest dungeon crypt" | Style K (Darkest Dungeon-like) | Env 1 (Ruins) or generic dungeon |
-| "generic dungeon" | Style B (Default) | Generic stone dungeon |
+| "generic dungeon" | Style R (Default) | Generic stone dungeon |
 
 ## Detail Intensity
 

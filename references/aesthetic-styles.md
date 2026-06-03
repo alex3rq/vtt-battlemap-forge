@@ -1,13 +1,13 @@
 ---
 name: aesthetic-styles
-description: Complete catalog of 17 aesthetic rendering styles for VTT battlemaps. Each style defines rendering look, artistic approach, contrast character, palette, and best-use scenarios. Styles are independent of environment — combine freely with any environment preset. Called by SKILL.md EP to select the rendering look based on user request.
+description: Complete catalog of 18 aesthetic rendering styles for VTT battlemaps. Each style defines rendering look, artistic approach, contrast character, palette, and best-use scenarios. Styles are independent of environment — combine freely with any environment preset. Called by SKILL.md EP to select the rendering look based on user request.
 ---
 
 # Aesthetic Styles
 
 Styles control rendering look, artistic approach, and contrast character. Independent of environment — combine freely with any Environment Preset.
 
-**If no aesthetic style is specified, use Style A.**
+**If no aesthetic style is specified, use Style R.**
 
 ## Execution Procedure
 
@@ -17,7 +17,7 @@ select_aesthetic(user_request) → style
 match user_request against:
     style letter code (A-W) → use exactly
     style name or alias → match to correct preset
-    no style specified → default Style A
+    no style specified → default Style R
 
 return: style description, contrast note, palette, rendering characteristics
 ```
@@ -30,6 +30,7 @@ Some letters are intentionally mnemonic and may not follow alphabetical order.
 
 | Code | Style |
 |---|---|
+| R | Premium Painterly Tactical *(Default)* |
 | A | Naturalistic Hand-Painted |
 | B | Baldur's Gate 3-like |
 | C | Colorful Fantasy Adventure |
@@ -51,9 +52,25 @@ Some letters are intentionally mnemonic and may not follow alphabetical order.
 
 ---
 
-## Style A – Naturalistic Hand-Painted *(Default)*
+## Style R – Premium Painterly Tactical *(Default)*
 
-**Aliases:** default, naturalistic, balanced, hand-painted, eye-rest, long-session, low-fatigue, natural
+**Aliases:** painterly tactical, premium vtt, illustrated crpg map, tactical painterly, semi-realistic battlemap, inkarnate pro, dungeon draft premium, fantasy tactical painterly
+
+**Description:** Premium semi-realistic painterly VTT battlemap. Strict top-down orthographic layout with subtle 3D depth cues created through painted shadows, ambient occlusion, terrain edge shading, and layered foliage. Rich hand-painted materials with believable but not photorealistic texture: dirt, moss, stone, roots, grass, water, rubble, and wood feel detailed while retaining an illustrated tabletop-map finish. More polished and dimensional than classic hand-painted maps, less photorealistic than 3D render or BG3-like styles. Strong tactical readability, clear path boundaries, controlled prop density, and comfortable long-session contrast.
+
+**Palette:** Deep natural greens, warm brown earth, mossy gray stone, subdued flower accents, soft golden daylight, cool forest shadows. Saturated enough to feel lush, but not cartoon-bright.
+
+**Contrast:** Balanced medium contrast. Slightly stronger terrain-edge shadows and rock shadows for readability. Avoid harsh black outlines, blown highlights, and noisy photoreal texture.
+
+**Best for:** Forest trails, ruins, caves, wilderness encounters, general-purpose fantasy battlemaps. Users who want a beautiful illustrated VTT map without full photorealism.
+
+**Note:** This style sits between hand-painted cartography (Style A/H) and photorealistic 3D render (Style P/Q). The painted depth cues are its key differentiator — volume comes from shadow and texture, never from camera tilt.
+
+---
+
+## Style A – Naturalistic Hand-Painted
+
+**Aliases:** naturalistic, balanced, hand-painted, eye-rest, long-session, low-fatigue, natural
 
 **Description:** Naturalistic hand-painted VTT battlemap, balanced-to-soft contrast, subdued value range, restrained highlights, natural terrain blending, readable tactical spaces, gentle focal hierarchy, soft painterly textures, subtle ambient shading, integrated low-contrast grid, professional fantasy module feel.
 

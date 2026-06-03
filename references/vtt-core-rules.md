@@ -11,6 +11,8 @@ Generated maps must be: fully top-down orthographic, VTT-compatible, grid-friend
 
 Do NOT use: isometric or angled camera, cinematic perspective, tilted view, side-view walls, horizon lines, depth-of-field, or perspective distortion.
 
+Painted 3D depth cues are encouraged: soft ambient occlusion under props, cast shadows from rocks and ledges, terrain edge shading to imply height, layered foliage and canopy shadows. These create visual depth while maintaining strict top-down orthographic perspective.
+
 ## Text, Labels, and Creatures
 
 Unless explicitly requested, do NOT draw:
@@ -123,7 +125,7 @@ Every Generation and Prompt Mode output must end with this block:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 VTT IMPORT
-  Suggested filename : BT_[MapConcept]_[cols]x[rows]
+  Suggested filename : BM_[MapConcept]_[cols]x[rows]
   Grid               : [cols] columns × [rows] rows
   Cell size          : [cell_px]px per cell  ([platform])
   Image dimensions   : [width]×[height]px
@@ -133,7 +135,7 @@ VTT IMPORT
 
 Filename notes:
 - Use the map concept or location name for `[MapConcept]` — short, no spaces (use underscores).
-- If cell count was estimated from a gridless reference, append `_est`: `BT_Trail_14x21_est`
+- If cell count was estimated from a gridless reference, append `_est`: `BM_Trail_14x21_est`
 - Do not include file extension — the image generator determines the format.
 - For Owlbear Rodeo: this filename enables automatic grid alignment on upload.
 
@@ -142,7 +144,7 @@ Example outputs:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 VTT IMPORT
-  Suggested filename : BT_Trail_14x21
+  Suggested filename : BM_Trail_14x21
   Grid               : 14 columns × 21 rows
   Cell size          : 100px per cell  (Owlbear Rodeo)
   Image dimensions   : 1400×2100px
@@ -153,7 +155,7 @@ VTT IMPORT
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 VTT IMPORT
-  Suggested filename : BT_CaveDungeon_32x24
+  Suggested filename : BM_CaveDungeon_32x24
   Grid               : 32 columns × 24 rows
   Cell size          : 100px per cell  (Owlbear Rodeo)
   Image dimensions   : 3200×2400px
@@ -164,7 +166,7 @@ VTT IMPORT
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 VTT IMPORT
-  Suggested filename : BT_VolcanicForge_20x20
+  Suggested filename : BM_VolcanicForge_20x20
   Grid               : 20 columns × 20 rows
   Cell size          : 70px per cell  (Roll20)
   Image dimensions   : 1400×1400px
@@ -363,10 +365,11 @@ Before producing any VTT output, verify the applicable items.
 **All VTT outputs:**
 - [ ] Correct mode selected (Prompt / Generation / Correction)
 - [ ] Correct variant selected (Player / DM) — player is default
-- [ ] Default aesthetic is Style A unless overridden
+- [ ] Default aesthetic is Style R unless overridden
 - [ ] Contrast is soft-to-balanced unless style or user requires otherwise
 - [ ] Reference layout and dimensions preserved exactly (if provided)
 - [ ] Map is fully top-down orthographic
+- [ ] Painted 3D depth cues used where appropriate (ambient occlusion, cast shadows, terrain edge shading)
 - [ ] Grid is NOT painted unless user explicitly requested it (default: no painted grid)
   - If grid was requested: subtle, integrated, low contrast, no labels
   - VTT Import block is present at the end of output with filename, cell count, cell size, and dimensions
