@@ -1,6 +1,6 @@
 ---
 name: prompt-templates
-description: Image-generation prompt templates for VTT Battlemap Forge Prompt Mode. Contains Compact (default) and Verbose (self-contained) templates in both player (default) and DM variants. DM variant adds a Creatures section for on-map creature placement. Load only in Prompt Mode.
+description: Image-generation prompt templates for VTT Battlemap Forge Prompt Mode. Contains Compact (default) and Verbose (self-contained) templates in both player (default) and DM variants, with narrative dressing fidelity fields. DM variant adds a Creatures section for on-map creature placement. Load only in Prompt Mode.
 ---
 
 # Prompt Templates
@@ -30,14 +30,24 @@ Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
 Lighting: [LIGHTING]
 Detail intensity: [LOW / MEDIUM / HIGH]
+Narrative dressing fidelity: [REFERENCE FAITHFUL / BALANCED NARRATIVE / STRONG NARRATIVE / DM SPOILER]
 Contrast: [SOFT / BALANCED / HIGH — note if overriding default]
 Dimensions: [cols]×[rows] cells at [cell_px]px per cell = [width]×[height]px
 No painted grid: export without gridlines — VTT will overlay its own grid
+
+Narrative Dressing Priority:
+[DRESSING FIDELITY MODE]
+
+Player-safe note extraction:
+Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. Do not reveal hidden traps, ambushes, secret doors, hidden treasure, invisible creatures, puzzle solutions, or DM-only information.
 
 Map-wide details:
 [GENERAL ENVIRONMENT, MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD]
 
 Area dressing:
+[AREA] - Required visible dressing: [...]
+[AREA] - Optional subtle dressing: [...]
+[AREA] - Do not reveal: [...]
 [AREA LABEL] – [VISUAL PROP INSTRUCTIONS]
 [AREA LABEL] – [VISUAL PROP INSTRUCTIONS]
 
@@ -60,7 +70,14 @@ Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
 Lighting: [LIGHTING]
 Detail intensity: [LOW / MEDIUM / HIGH]
+Narrative dressing fidelity: [REFERENCE FAITHFUL / BALANCED NARRATIVE / STRONG NARRATIVE / DM SPOILER]
 Contrast: [SOFT / BALANCED / HIGH — note if overriding default]
+
+Narrative Dressing Priority:
+[DRESSING FIDELITY MODE]
+
+Player-safe note extraction:
+Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. Do not reveal hidden traps, ambushes, secret doors, hidden treasure, invisible creatures, puzzle solutions, or DM-only information. In DM Spoiler Dressing, DM-only content may be included only for an explicitly DM-facing variant.
 
 Map-wide details:
 [GENERAL ENVIRONMENT, MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD]
@@ -68,6 +85,9 @@ Map-wide details:
 Layout: [APPROXIMATE SPATIAL DESCRIPTION — room count, rough arrangement, key features]
 
 Area dressing:
+[AREA] - Required visible dressing: [...]
+[AREA] - Optional subtle dressing: [...]
+[AREA] - Do not reveal: [...]
 [AREA] – [VISUAL PROP INSTRUCTIONS]
 [AREA] – [VISUAL PROP INSTRUCTIONS]
 
@@ -128,6 +148,7 @@ AESTHETIC STYLE: [FULL AESTHETIC STYLE DESCRIPTION]
 ENVIRONMENT: [FULL ENVIRONMENT DESCRIPTION]
 LIGHTING: [FULL LIGHTING DESCRIPTION]
 DETAIL INTENSITY: [LOW / MEDIUM / HIGH with description]
+NARRATIVE DRESSING FIDELITY: [REFERENCE FAITHFUL / BALANCED NARRATIVE / STRONG NARRATIVE / DM SPOILER with description]
 
 CONTRAST:
 [Default: Balanced to soft contrast. Avoid crushed shadows, overly bright highlights, aggressive rim lighting, extreme saturation, noisy texture contrast.]
@@ -144,10 +165,19 @@ CREATURES:
 Do not render creatures, tokens, miniatures, NPCs, monsters, or creature silhouettes.
 Convert all creature presence to environmental storytelling only — props, debris, marks, and implied occupation.
 
+NARRATIVE DRESSING PRIORITY:
+[DRESSING FIDELITY MODE]
+
+PLAYER-SAFE NOTE EXTRACTION:
+Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. Do not reveal hidden traps, ambushes, secret doors, hidden treasure, invisible creatures, puzzle solutions, or DM-only information.
+
 MAP-WIDE ENVIRONMENT:
 [MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD, REPEATING PROPS]
 
 AREA DRESSING:
+[AREA] - Required visible dressing: [...]
+[AREA] - Optional subtle dressing: [...]
+[AREA] - Do not reveal: [...]
 [AREA] – [PROPS AND DRESSING]
 [AREA] – [PROPS AND DRESSING]
 
@@ -183,14 +213,24 @@ Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
 Lighting: [LIGHTING]
 Detail intensity: [LOW / MEDIUM / HIGH]
+Narrative dressing fidelity: [REFERENCE FAITHFUL / BALANCED NARRATIVE / STRONG NARRATIVE / DM SPOILER]
 Contrast: [SOFT / BALANCED / HIGH — note if overriding default]
 Dimensions: [cols]×[rows] cells at [cell_px]px per cell = [width]×[height]px
 No painted grid: export without gridlines — VTT will overlay its own grid
+
+Narrative Dressing Priority:
+[DRESSING FIDELITY MODE]
+
+Player-safe note extraction:
+Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. In DM Spoiler Dressing, include DM-only visible traps, ambushes, secret treasure, hidden occupants, or other spoilers only when explicitly requested for the DM variant.
 
 Map-wide details:
 [GENERAL ENVIRONMENT, MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD]
 
 Area dressing:
+[AREA] - Required visible dressing: [...]
+[AREA] - Optional subtle dressing: [...]
+[AREA] - Do not reveal: [...]
 [AREA LABEL] – [VISUAL PROP INSTRUCTIONS]
 [AREA LABEL] – [VISUAL PROP INSTRUCTIONS]
 
@@ -221,7 +261,14 @@ Aesthetic Style: [SELECTED AESTHETIC STYLE DESCRIPTION]
 Environment: [SELECTED ENVIRONMENT DESCRIPTION]
 Lighting: [LIGHTING]
 Detail intensity: [LOW / MEDIUM / HIGH]
+Narrative dressing fidelity: [REFERENCE FAITHFUL / BALANCED NARRATIVE / STRONG NARRATIVE / DM SPOILER]
 Contrast: [SOFT / BALANCED / HIGH — note if overriding default]
+
+Narrative Dressing Priority:
+[DRESSING FIDELITY MODE]
+
+Player-safe note extraction:
+Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. In DM Spoiler Dressing, include DM-only visible traps, ambushes, secret treasure, hidden occupants, or other spoilers only when explicitly requested for the DM variant.
 
 Map-wide details:
 [GENERAL ENVIRONMENT, MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD]
@@ -229,6 +276,9 @@ Map-wide details:
 Layout: [APPROXIMATE SPATIAL DESCRIPTION — room count, rough arrangement, key features]
 
 Area dressing:
+[AREA] - Required visible dressing: [...]
+[AREA] - Optional subtle dressing: [...]
+[AREA] - Do not reveal: [...]
 [AREA] – [VISUAL PROP INSTRUCTIONS]
 [AREA] – [VISUAL PROP INSTRUCTIONS]
 
@@ -274,6 +324,7 @@ AESTHETIC STYLE: [FULL AESTHETIC STYLE DESCRIPTION]
 ENVIRONMENT: [FULL ENVIRONMENT DESCRIPTION]
 LIGHTING: [FULL LIGHTING DESCRIPTION]
 DETAIL INTENSITY: [LOW / MEDIUM / HIGH with description]
+NARRATIVE DRESSING FIDELITY: [REFERENCE FAITHFUL / BALANCED NARRATIVE / STRONG NARRATIVE / DM SPOILER with description]
 
 CONTRAST:
 [Default: Balanced to soft contrast. Avoid crushed shadows, overly bright highlights, aggressive rim lighting, extreme saturation, noisy texture contrast.]
@@ -296,10 +347,19 @@ Props from the environment dressing are retained — creatures are placed on top
 [AREA] — [CREATURE TYPE], [COUNT], [BEHAVIOR / STATE], [POSITION HINT]
 [AREA] — [CREATURE TYPE], [COUNT], [BEHAVIOR / STATE], [POSITION HINT]
 
+NARRATIVE DRESSING PRIORITY:
+[DRESSING FIDELITY MODE]
+
+NOTE EXTRACTION:
+Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. For Reference Faithful, Balanced Narrative, or Strong Narrative, include only player-safe visible dressing. For DM Spoiler Dressing, include DM-only visible traps, ambush positions, secret treasure, hidden occupants, or other spoiler elements only when explicitly requested for this DM-facing map.
+
 MAP-WIDE ENVIRONMENT:
 [MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD, REPEATING PROPS]
 
 AREA DRESSING:
+[AREA] - Required visible dressing: [...]
+[AREA] - Optional subtle dressing: [...]
+[AREA] - Do not reveal: [...]
 [AREA] – [PROPS AND DRESSING]
 [AREA] – [PROPS AND DRESSING]
 

@@ -18,8 +18,8 @@ Load only the references needed for the active mode. Do not load all files by de
 |---|---|---|
 | `references/aesthetic-styles.md` | 18 rendering style definitions | Any mode requiring style selection |
 | `references/environment-presets.md` | 11 biome/terrain presets | Any mode requiring environment selection |
-| `references/vtt-core-rules.md` | Perspective, grid, contrast, creatures, lighting, traps, correction rules, DM map variant, quality checklist | Prompt, Generation, or Correction mode |
-| `references/prompt-templates.md` | Compact and Verbose prompt templates — player and DM variants | Prompt mode only |
+| `references/vtt-core-rules.md` | Perspective, grid, contrast, creatures, lighting, narrative dressing, traps, correction rules, DM map variant, quality checklist | Prompt, Generation, or Correction mode |
+| `references/prompt-templates.md` | Compact and Verbose prompt templates with narrative dressing fields — player and DM variants | Prompt mode only |
 | `references/scene-art-mode.md` | Scene Art flow, moment suggestions, cinematic prompt template — player and DM variants | Scene Art mode only |
 | `references/token-mode.md` | Token rules, composition, border breakout, frame, background, prompt templates, quality checklist | Token mode only |
 
@@ -56,7 +56,8 @@ DM variant is an optional modifier available in Prompt, Generation, and Scene Ar
 
 ```
 vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
-                    zone_context=None):
+                    adventure_notes=None, zone_context=None):
+    # adventure_notes = markdown, module text, room notes, or area descriptions.
     # zone_context = { label: "E2", description: "...", adjacent: [...] }
     # Applies to Scene Art only. See references/scene-art-mode.md.
 
@@ -107,6 +108,9 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
     # VTT modes only
     detail   = select_detail(user_request)          # Default: Medium
     lighting = select_lighting(user_request, env)   # references/vtt-core-rules.md
+    dressing_fidelity = select_dressing_fidelity(user_request, adventure_notes, dm_mode)
+    # Default: Reference Faithful. If adventure_notes are provided and the user
+    # does not choose a fidelity level, default to Balanced Narrative Dressing.
 
     load(references/vtt-core-rules.md)
 
@@ -114,8 +118,11 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
         load(references/prompt-templates.md)
         variant = "dm" if dm_mode else "player"
         dims = snap_to_cell_grid(reference_image, user_request, cell_px)
+        dressing = extract_narrative_dressing(user_request, adventure_notes,
+                                              dm_mode, dressing_fidelity)
         prompt = build_prompt(user_request, style, env, detail, lighting,
-                              reference_image, variant, creature_images, dims)
+                              reference_image, variant, creature_images, dims,
+                              dressing_fidelity, dressing)
         output_in_code_block(prompt)
         output_vtt_import_block(dims, platform, cell_px, map_concept, paint_grid)
 
@@ -127,6 +134,9 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
         apply_grid_policy(reference_image, paint_grid)
         apply_contrast_policy(style)
         apply_environmental_dressing(env, detail)
+        dressing = extract_narrative_dressing(user_request, adventure_notes,
+                                              dm_mode, dressing_fidelity)
+        apply_zone_dressing_priority(dressing_fidelity, dressing)
         if reference_image:
             preserve_layout_and_topology_exactly(reference_image)
             # dimensions come from snap_to_cell_grid, not raw image size
@@ -248,3 +258,22 @@ If user does not specify, use **Medium**.
 | **Low** | low, sparse, clean, minimal props, maximum readability | Sparse props, essential storytelling only, clean walkable spaces. Best for small rooms, narrow corridors, complex layouts. |
 | **Medium** *(default)* | medium, balanced, normal, readable detail | Balanced environmental storytelling, readable prop placement, clear walkable spaces. Best for most VTT battlemaps. |
 | **High** | high, rich, decorative, premium detail, atmospheric detail, photorealistic, cinematic | Full photogrammetry-quality asset pass. Rebuild surfaces from scratch with high-density, layered textures. Apply ambient occlusion — micro-shadows under every individual pebble, root, blade of grass, and debris asset. Use directional lighting to define elevation breaks and slopes organically. Volumetric light shafts where applicable. High material fidelity: distinct rock face geology, procedural mud or stone surface variation, multi-toned groundcover. Paths, doorways, stairs, bridges, and combat spaces must remain readable. Best for boss arenas, scenic set-pieces, showcase maps, and any map where visual richness is the primary goal. |
+
+## Narrative Dressing Fidelity
+
+Controls how much weight markdown, adventure notes, and room descriptions receive when adding visible area dressing. This affects props and environmental storytelling only. It never allows layout changes, blocked tactical paths, readable labels, player-facing spoilers, or visible creatures unless DM variant is active.
+
+If the user does not specify and no notes are provided, use **Reference Faithful**. If the user provides markdown, adventure notes, or room notes without choosing a fidelity level, use **Balanced Narrative Dressing**.
+
+| Level | Aliases | Description |
+|---|---|---|
+| **Reference Faithful** *(default)* | reference faithful, faithful, close to reference, preserve original, default | Preserve visible reference props and existing map feel. Add only light generic environmental dressing from the selected environment. Best when the goal is a polished version of the original map. |
+| **Balanced Narrative Dressing** *(recommended with notes)* | balanced narrative, balanced dressing, use notes, use markdown, player-safe notes | Preserve the spatial blueprint while using markdown or room notes to add player-safe visible details per area: occupation, wear, materials, residue, furniture, bedding, storage, debris, and atmosphere. Do not reveal hidden content. |
+| **Strong Narrative Dressing** | strong narrative, strong dressing, story-rich, room identity, must include key props | Strongly differentiate each room using player-safe notes. Required props may be phrased as "must visibly include" when they do not spoil secrets or block movement. Keep tactical paths clear. |
+| **DM Spoiler Dressing** | dm spoiler, spoiler dressing, dm dressing, reveal secrets | Only valid when DM variant is active or the user explicitly requests a DM-facing spoiler map. May include visible traps, hidden occupants, secret treasure, ambush positions, and other DM-only information, while still avoiding text labels and UI. |
+
+### Player-Safe Narrative Extraction
+
+When markdown, adventure notes, or room descriptions are provided, extract only details safe for a player-facing map: visible room use, wear, occupation traces, materials, remains, past events, atmosphere, and non-secret props. Do not reveal hidden traps, ambushes, secret doors, hidden treasure, invisible creatures, puzzle solutions, or information players should discover through exploration.
+
+Treat area labels from the notes as internal placement guides. Never render area labels, room names, text, or annotations on the map.

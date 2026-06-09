@@ -1,6 +1,6 @@
 ---
 name: vtt-core-rules
-description: Core VTT battlemap rules for Prompt, Generation, and Correction modes. Covers perspective, text/creature restrictions, creature-to-prop conversion, grid policy, contrast policy, lighting rules, environmental storytelling, traps and hazards, doors and entrances, correction behavior, and the final quality checklist. Called by SKILL.md for all non-Scene-Art modes.
+description: Core VTT battlemap rules for Prompt, Generation, and Correction modes. Covers perspective, text/creature restrictions, creature-to-prop conversion, grid policy, contrast policy, lighting rules, environmental storytelling, player-safe and DM narrative dressing, traps and hazards, doors and entrances, correction behavior, and the final quality checklist. Called by SKILL.md for all non-Scene-Art modes.
 ---
 
 # VTT Core Rules
@@ -219,6 +219,57 @@ Use environmental details to imply inhabitants, events, history, and hazards. Ne
 
 **Environment-specific props** → see `references/environment-presets.md` for the full prop catalog per environment.
 
+## Player-Safe Narrative Dressing
+
+When the user provides markdown, adventure notes, room keys, or area descriptions, use them to enrich visible environmental storytelling without spoiling exploration. Area descriptions are dressing guidance, not permission to change the reference layout.
+
+Allowed in player-facing maps:
+
+- Signs of occupation: bedding, stools, storage, weapon racks, cooking remains, work areas
+- Material history: soot, ash, stains, residue, broken tools, worn thresholds, cracked stone
+- Movement traces: footprints, claw marks, drag marks, cart ruts, disturbed dust
+- Past events: bones, scraps, rubble, collapsed furniture, burned cloth, environmental damage
+- Atmospheric props: candles, offerings, abstract ritual residue, mold, moss, puddles, minerals
+- Non-secret hazards already obvious to players
+
+Forbidden in player-facing maps:
+
+- Hidden traps shown clearly
+- Secret doors highlighted or outlined
+- Hidden enemies, ambush silhouettes, creature shadows, glowing eyes, or concealed occupants
+- Treasure meant to be discovered later
+- Readable notes, labels, puzzle answers, exact symbols, tactical marks, or DM annotations
+- Any visual clue so explicit that it solves exploration before the players interact with the area
+
+Use this conversion pattern:
+
+| Notes mention | Player-facing dressing allowed | Do not show |
+|---|---|---|
+| Kobolds hide behind crates | Crates, boot prints, food scraps, spear rack, disturbed clutter | Kobolds, silhouettes, exact hiding positions |
+| Hidden pit trap in corridor | Slightly disturbed dust, faint seam, subtle discoloration | Open pit, obvious mechanism, warning marker |
+| Mephits sleep here | Charred bedding, ash, mineral puddles, scorched cloth, cracked bowls | Visible mephits |
+| Treasure hidden under rubble | Natural rubble and collapsed debris | Visible coins, chest outline, highlighted stash |
+| Secret door behind wall | Normal wall texture, generic cracks if appropriate | Door outline, glowing seam, suspicious marker |
+| Guard post | Spear rack, stool, torch bracket, boot prints, worn floor, discarded food | Hidden guards or exact ambush positions |
+| Ritual chamber | Candles, ash, old stains, offerings, cracked bowl, abstract residue | Readable runes, puzzle solution, hidden cultists |
+
+For **Reference Faithful**, use only light generic dressing and preserve visible reference props. For **Balanced Narrative Dressing**, add player-safe note-derived props per area. For **Strong Narrative Dressing**, make each room identity clear with stronger player-safe props while preserving clear paths. For **DM Spoiler Dressing**, allow hidden or spoiler content only when DM variant is active.
+
+## DM Narrative Dressing
+
+When `dm_mode` is active or the user explicitly requests **DM Spoiler Dressing**, adventure notes may include spoiler-visible elements that are useful to the DM: hidden traps, ambush positions, hidden occupants, secret treasure, secret doors, revealed puzzle mechanisms, encounter-relevant mechanical props, and creature or NPC placement.
+
+DM narrative dressing must still follow all VTT readability rules:
+
+- No readable labels, room names, coordinates, tactical annotations, UI, or DM note text
+- Do not block doors, corridors, stairs, bridges, entrances, exits, or combat paths
+- Keep trap, secret, treasure, and ambush indicators visually integrated into the environment, not marked like a diagram
+- Scale creatures, hazards, treasure, and mechanical props to the map grid
+- Preserve the reference layout exactly; spoiler dressing is not permission to add rooms, paths, or walls
+- Make spoiler elements useful to the DM without turning the map into a labeled planning board
+
+Use **DM Spoiler Dressing** only for an explicitly DM-facing map. If the user asks for a player-facing map, fall back to Player-Safe Narrative Dressing even when the notes contain DM-only information.
+
 ## Traps and Hazards
 
 | Hazard | Visual Treatment |
@@ -378,6 +429,7 @@ Before producing any VTT output, verify the applicable items.
 - [ ] Entrances, landmarks, and key features are readable
 - [ ] Lighting supports gameplay clarity
 - [ ] Detail intensity matches the request
+- [ ] Narrative dressing fidelity matches the request and preserves tactical readability
 - [ ] Environment props match selected environment preset
 - [ ] Aesthetic style is correctly applied
 - [ ] Map is comfortable for long VTT sessions
@@ -385,9 +437,12 @@ Before producing any VTT output, verify the applicable items.
 **Player variant only:**
 - [ ] No visible creatures unless explicitly requested
 - [ ] All creature presence converted to environmental storytelling props
+- [ ] Markdown or room notes are filtered to player-safe visible dressing only
+- [ ] Hidden traps, secret doors, ambushes, hidden treasure, and puzzle solutions are not revealed
 
 **DM variant only:**
 - [ ] Creature placement specification was captured or derived
+- [ ] DM Spoiler Dressing reveals only explicitly DM-facing spoiler content
 - [ ] Creatures illustrated in position, consistent with aesthetic style
 - [ ] Creature scale is appropriate to grid scale
 - [ ] Props from player version retained alongside creature placement
