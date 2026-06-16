@@ -52,6 +52,7 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 - **18 aesthetic styles** — Naturalistic Hand-Painted, Baldur's Gate 3-like, Diablo-like, FF14-like, Darkest Dungeon-like, WoW-like, Watercolor, 3D Render, and more
 - **11 environment presets** — Ancient Ruins, Natural Caves, Aquatic, Urban/Sewer, Arctic, Jungle, Volcanic, Swamp, Desert, Forest, Arcane/Planar
 - **VTT-native defaults** — Top-down orthographic perspective, no painted grid (VTT overlays its own), no visible creatures or text, balanced contrast for long sessions
+- **Mandatory Visual Anchors** — Separates must-show props from atmospheric dressing so small rooms and key objects, such as closed chests, sarcophagi, war tables, pools, or trap logs, are less likely to be omitted.
 - **Dressing Fidelity control** — Choose how strongly markdown, adventure notes, and room descriptions influence visible props: Reference Faithful, Balanced Narrative Dressing, Strong Narrative Dressing, or DM Spoiler Dressing
 - **VTT Import block** — Every map output includes a ready-to-use filename (`BM_MapName_32x24`), cell count, cell size per platform, and pixel dimensions. Owlbear Rodeo auto-aligns on upload when the filename convention is used
 - **Multi-platform grid math** — Owlbear Rodeo (100px, default), Roll20 (70px / 140px), Foundry VTT, Fantasy Grounds. Cell count is derived from reference image gridlines or from encounter-type defaults; dimensions are always integers
@@ -135,6 +136,8 @@ vtt-battlemap-forge embeds VTT domain expertise directly into an Agent Skills wo
 > 4. Generate a top-down 3000×3000px image (30×30 cells at 100px) — no painted grid
 > 5. Ensure no visible creatures, text, or UI elements
 > 6. Output VTT Import block: `BM_VolcanicForge_30x30`, 100px/cell, Owlbear Rodeo
+
+When a room contains a key object, the skill extracts it as a Mandatory Visual Anchor so it is listed separately from general room atmosphere.
 
 **Example — Dressing Fidelity with adventure notes:**
 

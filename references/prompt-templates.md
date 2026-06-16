@@ -38,6 +38,11 @@ No painted grid: export without gridlines — VTT will overlay its own grid
 Narrative Dressing Priority:
 [DRESSING FIDELITY MODE]
 
+Mandatory Visual Anchors:
+[AREA] — [1–3 concrete player-safe props that must appear visibly]
+[AREA] — [1–3 concrete player-safe props that must appear visibly]
+[AREA] — [1–3 concrete player-safe props that must appear visibly]
+
 Player-safe note extraction:
 Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. Do not reveal hidden traps, ambushes, secret doors, hidden treasure, invisible creatures, puzzle solutions, or DM-only information.
 
@@ -45,6 +50,7 @@ Map-wide details:
 [GENERAL ENVIRONMENT, MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD]
 
 Area dressing:
+[AREA] - Visual anchor priority: [repeat the single most important mandatory prop if any]
 [AREA] - Required visible dressing: [...]
 [AREA] - Optional subtle dressing: [...]
 [AREA] - Do not reveal: [...]
@@ -76,6 +82,9 @@ Contrast: [SOFT / BALANCED / HIGH — note if overriding default]
 Narrative Dressing Priority:
 [DRESSING FIDELITY MODE]
 
+Mandatory Visual Anchors:
+[AREA] — [1–3 concrete player-safe props that must appear visibly]
+
 Player-safe note extraction:
 Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. Do not reveal hidden traps, ambushes, secret doors, hidden treasure, invisible creatures, puzzle solutions, or DM-only information. In DM Spoiler Dressing, DM-only content may be included only for an explicitly DM-facing variant.
 
@@ -85,6 +94,7 @@ Map-wide details:
 Layout: [APPROXIMATE SPATIAL DESCRIPTION — room count, rough arrangement, key features]
 
 Area dressing:
+[AREA] - Visual anchor priority: [repeat the single most important mandatory prop if any]
 [AREA] - Required visible dressing: [...]
 [AREA] - Optional subtle dressing: [...]
 [AREA] - Do not reveal: [...]
@@ -168,6 +178,12 @@ Convert all creature presence to environmental storytelling only — props, debr
 NARRATIVE DRESSING PRIORITY:
 [DRESSING FIDELITY MODE]
 
+MANDATORY VISUAL ANCHORS:
+These are concrete player-safe props that must appear visibly in the final map. They have higher priority than atmospheric dressing but must not block movement or reveal spoilers.
+
+[AREA] — [1–3 concrete visible props]
+[AREA] — [1–3 concrete visible props]
+
 PLAYER-SAFE NOTE EXTRACTION:
 Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. Do not reveal hidden traps, ambushes, secret doors, hidden treasure, invisible creatures, puzzle solutions, or DM-only information.
 
@@ -221,6 +237,9 @@ No painted grid: export without gridlines — VTT will overlay its own grid
 Narrative Dressing Priority:
 [DRESSING FIDELITY MODE]
 
+Mandatory Visual Anchors:
+[AREA] — [1–3 concrete props that must appear visibly]
+
 Player-safe note extraction:
 Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. In DM Spoiler Dressing, include DM-only visible traps, ambushes, secret treasure, hidden occupants, or other spoilers only when explicitly requested for the DM variant.
 
@@ -228,6 +247,7 @@ Map-wide details:
 [GENERAL ENVIRONMENT, MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD]
 
 Area dressing:
+[AREA] - Visual anchor priority: [repeat the single most important mandatory prop if any]
 [AREA] - Required visible dressing: [...]
 [AREA] - Optional subtle dressing: [...]
 [AREA] - Do not reveal: [...]
@@ -267,6 +287,9 @@ Contrast: [SOFT / BALANCED / HIGH — note if overriding default]
 Narrative Dressing Priority:
 [DRESSING FIDELITY MODE]
 
+Mandatory Visual Anchors:
+[AREA] — [1–3 concrete props that must appear visibly]
+
 Player-safe note extraction:
 Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. Include only details players could safely perceive before discovering hidden content. In DM Spoiler Dressing, include DM-only visible traps, ambushes, secret treasure, hidden occupants, or other spoilers only when explicitly requested for the DM variant.
 
@@ -276,6 +299,7 @@ Map-wide details:
 Layout: [APPROXIMATE SPATIAL DESCRIPTION — room count, rough arrangement, key features]
 
 Area dressing:
+[AREA] - Visual anchor priority: [repeat the single most important mandatory prop if any]
 [AREA] - Required visible dressing: [...]
 [AREA] - Optional subtle dressing: [...]
 [AREA] - Do not reveal: [...]
@@ -350,6 +374,9 @@ Props from the environment dressing are retained — creatures are placed on top
 NARRATIVE DRESSING PRIORITY:
 [DRESSING FIDELITY MODE]
 
+MANDATORY VISUAL ANCHORS:
+[AREA] — [1–3 concrete props that must appear visibly]
+
 NOTE EXTRACTION:
 Use markdown, adventure notes, or room descriptions to enrich each area with visible environmental storytelling. For Reference Faithful, Balanced Narrative, or Strong Narrative, include only player-safe visible dressing. For DM Spoiler Dressing, include DM-only visible traps, ambush positions, secret treasure, hidden occupants, or other spoiler elements only when explicitly requested for this DM-facing map.
 
@@ -357,6 +384,7 @@ MAP-WIDE ENVIRONMENT:
 [MATERIALS, TERRAIN, FLOOR/WALL TREATMENT, MOOD, REPEATING PROPS]
 
 AREA DRESSING:
+[AREA] - Visual anchor priority: [repeat the single most important mandatory prop if any]
 [AREA] - Required visible dressing: [...]
 [AREA] - Optional subtle dressing: [...]
 [AREA] - Do not reveal: [...]

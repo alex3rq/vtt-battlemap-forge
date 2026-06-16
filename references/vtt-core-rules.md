@@ -219,6 +219,95 @@ Use environmental details to imply inhabitants, events, history, and hazards. Ne
 
 **Environment-specific props** → see `references/environment-presets.md` for the full prop catalog per environment.
 
+## Mandatory Visual Anchors
+
+Mandatory Visual Anchors are high-priority concrete props that must appear visibly in the final battlemap.
+
+They exist because image-generation models often omit small but important props when they are buried inside long area descriptions. Mandatory Visual Anchors separate must-show objects from atmospheric dressing.
+
+### Anchor Priority
+
+Mandatory Visual Anchors have higher priority than normal area dressing, but lower priority than:
+1. Preserving reference layout and topology
+2. Keeping tactical paths clear
+3. Player-facing spoiler safety
+4. No text / no creatures rules
+
+If a Mandatory Visual Anchor would block movement, shrink it, move it against a wall, or reduce surrounding clutter — do not block the route.
+
+### Anchor Format
+
+Use this format:
+
+```text
+[AREA] — Mandatory Visual Anchors:
+- [concrete visible prop]
+- [concrete visible prop]
+- [concrete visible prop]
+```
+
+Good anchors:
+
+* closed old wooden chest
+* broken crate scraps
+* dusty footprints leading to the chest
+* closed stone sarcophagus
+* shallow green pool
+* heavy rolling log at top of stairs
+* old war table
+* four upright log stools
+* pile of skulls in northwest corner
+* heap of dirty animal furs
+
+Bad anchors:
+
+* ominous atmosphere
+* stale air
+* feeling of danger
+* secret treasure
+* hidden monster
+* readable note
+* glowing magic item
+* secret-door outline
+* exact ambush position
+
+### Small Room Protection
+
+For rooms smaller than roughly 12 grid cells, use special small-room protection:
+
+* Place 1 dominant anchor prop in the clearest visible position.
+* Place secondary props against walls or corners.
+* Keep the room readable from top-down view.
+* Do not overfill the space.
+* Do not let shadows hide the anchor prop.
+* If the room has one defining object, that object must be the visual focus of the room.
+
+Example:
+
+```text
+A3 Secret Spoils — Mandatory Visual Anchors:
+- One closed old wooden chest, clearly visible on the floor.
+- Broken crate scraps tucked against the wall.
+- Dusty footprints leading from the entrance toward the chest.
+```
+
+### Player-Facing Safety for Anchors
+
+In player-facing maps, anchors may show visible containers, furniture, stains, bones, tools, or room-use props.
+
+Do not show:
+
+* Open containers revealing treasure
+* Coins or treasure contents meant to be discovered
+* Magic item glows
+* Secret-door outlines
+* Hidden monsters
+* Creature silhouettes
+* Readable labels, maps, or notes
+* Puzzle solutions
+
+If a chest, coffer, footlocker, sarcophagus, or crate is included as an anchor, render it closed, mundane, and unlit unless the user explicitly requests a DM-facing spoiler map.
+
 ## Player-Safe Narrative Dressing
 
 When the user provides markdown, adventure notes, room keys, or area descriptions, use them to enrich visible environmental storytelling without spoiling exploration. Area descriptions are dressing guidance, not permission to change the reference layout.
@@ -231,13 +320,15 @@ Allowed in player-facing maps:
 - Past events: bones, scraps, rubble, collapsed furniture, burned cloth, environmental damage
 - Atmospheric props: candles, offerings, abstract ritual residue, mold, moss, puddles, minerals
 - Non-secret hazards already obvious to players
+- Closed visible containers when the container itself is an obvious room feature, as long as contents are not revealed
+- Mandatory Visual Anchors that are concrete, visible, and player-safe
 
 Forbidden in player-facing maps:
 
 - Hidden traps shown clearly
 - Secret doors highlighted or outlined
 - Hidden enemies, ambush silhouettes, creature shadows, glowing eyes, or concealed occupants
-- Treasure meant to be discovered later
+- Treasure contents meant to be discovered later, including visible coins, gems, magic items, glowing loot, or open containers revealing valuables
 - Readable notes, labels, puzzle answers, exact symbols, tactical marks, or DM annotations
 - Any visual clue so explicit that it solves exploration before the players interact with the area
 
@@ -252,6 +343,8 @@ Use this conversion pattern:
 | Secret door behind wall | Normal wall texture, generic cracks if appropriate | Door outline, glowing seam, suspicious marker |
 | Guard post | Spear rack, stool, torch bracket, boot prints, worn floor, discarded food | Hidden guards or exact ambush positions |
 | Ritual chamber | Candles, ash, old stains, offerings, cracked bowl, abstract residue | Readable runes, puzzle solution, hidden cultists |
+
+A closed container may be visible if it is part of the room dressing or the reference layout, but its contents must not be visible or highlighted.
 
 For **Reference Faithful**, use only light generic dressing and preserve visible reference props. For **Balanced Narrative Dressing**, add player-safe note-derived props per area. For **Strong Narrative Dressing**, make each room identity clear with stronger player-safe props while preserving clear paths. For **DM Spoiler Dressing**, allow hidden or spoiler content only when DM variant is active.
 
@@ -430,6 +523,9 @@ Before producing any VTT output, verify the applicable items.
 - [ ] Lighting supports gameplay clarity
 - [ ] Detail intensity matches the request
 - [ ] Narrative dressing fidelity matches the request and preserves tactical readability
+- [ ] Mandatory Visual Anchors are included when specified
+- [ ] Small rooms with mandatory anchors have at least one clearly visible defining prop
+- [ ] Mandatory anchors do not block doors, corridors, stairs, bridges, or required movement paths
 - [ ] Environment props match selected environment preset
 - [ ] Aesthetic style is correctly applied
 - [ ] Map is comfortable for long VTT sessions
@@ -439,6 +535,7 @@ Before producing any VTT output, verify the applicable items.
 - [ ] All creature presence converted to environmental storytelling props
 - [ ] Markdown or room notes are filtered to player-safe visible dressing only
 - [ ] Hidden traps, secret doors, ambushes, hidden treasure, and puzzle solutions are not revealed
+- [ ] Closed containers may appear only as mundane props; treasure contents, magic items, and glowing loot are not revealed
 
 **DM variant only:**
 - [ ] Creature placement specification was captured or derived

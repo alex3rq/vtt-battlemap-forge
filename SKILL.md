@@ -120,9 +120,15 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
         dims = snap_to_cell_grid(reference_image, user_request, cell_px)
         dressing = extract_narrative_dressing(user_request, adventure_notes,
                                               dm_mode, dressing_fidelity)
+        anchors = extract_mandatory_visual_anchors(
+            user_request,
+            adventure_notes,
+            dressing_fidelity,
+            dm_mode
+        )
         prompt = build_prompt(user_request, style, env, detail, lighting,
                               reference_image, variant, creature_images, dims,
-                              dressing_fidelity, dressing)
+                              dressing_fidelity, dressing, anchors)
         output_in_code_block(prompt)
         output_vtt_import_block(dims, platform, cell_px, map_concept, paint_grid)
 
@@ -136,6 +142,13 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
         apply_environmental_dressing(env, detail)
         dressing = extract_narrative_dressing(user_request, adventure_notes,
                                               dm_mode, dressing_fidelity)
+        anchors = extract_mandatory_visual_anchors(
+            user_request,
+            adventure_notes,
+            dressing_fidelity,
+            dm_mode
+        )
+        apply_mandatory_visual_anchors(anchors)
         apply_zone_dressing_priority(dressing_fidelity, dressing)
         if reference_image:
             preserve_layout_and_topology_exactly(reference_image)
@@ -277,3 +290,66 @@ If the user does not specify and no notes are provided, use **Reference Faithful
 When markdown, adventure notes, or room descriptions are provided, extract only details safe for a player-facing map: visible room use, wear, occupation traces, materials, remains, past events, atmosphere, and non-secret props. Do not reveal hidden traps, ambushes, secret doors, hidden treasure, invisible creatures, puzzle solutions, or information players should discover through exploration.
 
 Treat area labels from the notes as internal placement guides. Never render area labels, room names, text, or annotations on the map.
+
+## Mandatory Visual Anchors
+
+Mandatory Visual Anchors are concrete, player-safe objects that must appear visibly in the final map.
+
+They are extracted from adventure notes, room keys, or user-provided area dressing when a room contains an object that defines the room's identity or gameplay readability.
+
+Mandatory Visual Anchors are especially important for:
+- Small rooms of 1–12 cells
+- Hidden or secret chambers that are included in the visible reference layout
+- Rooms whose identity depends on a single prop
+- Treasure/stash rooms where a closed container is visible but contents must remain hidden
+- Trap or hazard rooms where the visible, non-secret physical feature matters
+- Rooms that previously failed to show required props
+
+Mandatory Visual Anchors are not general atmosphere. They must be concrete nouns or short concrete prop phrases.
+
+Examples:
+- closed wooden chest
+- broken crate scraps
+- dusty footprints
+- sarcophagus
+- old table
+- four upright log stools
+- heavy rolling log
+- shallow pool
+- closed stone coffin
+- bedroll pile
+- weapon rack
+
+Do not use Mandatory Visual Anchors for:
+- Hidden monsters
+- Creature silhouettes
+- Secret-door outlines
+- Hidden treasure contents
+- Magic item reveals
+- Readable notes
+- Puzzle solutions
+- DM-only clues
+- Exact ambush positions
+
+If a visible container is allowed, such as a chest in a discovered or visible room, render it closed, mundane, unlit, and without visible contents unless DM Spoiler Dressing is active.
+
+### Mandatory Visual Anchor Extraction
+
+When extracting area dressing, also identify 0–3 Mandatory Visual Anchors per keyed area.
+
+Selection priority:
+1. A concrete object explicitly named as required
+2. A single object that defines the room's identity
+3. A visible obstacle, landmark, container, or furnishing important to navigation or recognition
+4. A small-room prop that would be easy for the image model to omit
+5. A player-safe clue that communicates room use without revealing secrets
+
+For each area:
+- Use 0 anchors if the room has no necessary concrete prop.
+- Use 1 anchor for most rooms.
+- Use 2–3 anchors only when the room is small or the props are critical.
+- Keep anchors short and object-focused.
+- Avoid atmospheric abstractions like "stale air," "ominous mood," or "neglected feeling."
+- Do not include spoilers in player-facing mode.
+
+Mandatory Visual Anchors should be rendered before general area dressing.
