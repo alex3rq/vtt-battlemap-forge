@@ -1,6 +1,6 @@
 ---
 name: vtt-core-rules
-description: Core VTT battlemap rules for Prompt, Generation, and Correction modes. Covers perspective, text/creature restrictions, creature-to-prop conversion, grid policy, contrast policy, lighting rules, environmental storytelling, player-safe and DM narrative dressing, traps and hazards, doors and entrances, correction behavior, and the final quality checklist. Called by SKILL.md for all non-Scene-Art modes.
+description: Core VTT battlemap rules for Prompt, Generation, and Correction modes. Covers perspective, prop perspective enforcement, text/creature restrictions, creature-to-prop conversion, grid policy, contrast policy, lighting rules, environmental storytelling, player-safe and DM narrative dressing, traps and hazards, doors and entrances, correction behavior, and the final quality checklist. Called by SKILL.md for all non-Scene-Art modes.
 ---
 
 # VTT Core Rules
@@ -12,6 +12,37 @@ Generated maps must be: fully top-down orthographic, VTT-compatible, grid-friend
 Do NOT use: isometric or angled camera, cinematic perspective, tilted view, side-view walls, horizon lines, depth-of-field, or perspective distortion.
 
 Painted 3D depth cues are encouraged: soft ambient occlusion under props, cast shadows from rocks and ledges, terrain edge shading to imply height, layered foliage and canopy shadows. These create visual depth while maintaining strict top-down orthographic perspective.
+
+## Prop Perspective Enforcement
+
+All props, objects, and environmental dressing must obey strict top-down orthographic camera — the same perspective as the map itself. Image models frequently default to 3/4-view or isometric angles for recognizable objects (chests, barrels, tables, beds, columns, bookshelves, altars, statues, crates, logs, weapons, debris). This drift breaks the tactical readability of the map.
+
+**Enforcement rule:** Every prop must be viewed from directly above. Only top planes, silhouettes, contact shadows, and ambient occlusion may show depth. No object may reveal a front face, side face, horizon-facing plane, or isometric/angled perspective.
+
+### Props most likely to drift (enforce strictly)
+
+| Prop type | Correct top-down rendering |
+|---|---|
+| Chests, coffers, crates, sarcophagi | Rectangular top/lid plane only. No front face, no side face, no angled chest icon. |
+| Barrels, urns, pots | Circular top opening or lid silhouette only. |
+| Tables, benches, beds, stools | Flat rectangular/circular top surfaces, legs implied only by shadow beneath. |
+| Columns, pillars, statues | Circular top cross-section, cast shadow showing height. |
+| Bookshelves, racks, weapon stands | Top-down arrangement of contents, no side panels visible. |
+| Logs, bones, debris | Overhead silhouette with contact shadow. |
+
+### Anchors for perspective-prone props
+
+When writing Mandatory Visual Anchors for any object that could drift into 3/4 view, use language that explicitly constrains it to top-down. Example for a chest:
+
+> `one closed old wooden chest: rectangular top/lid viewed strictly from directly overhead, no front face visible, no side face visible, no angled perspective, no isometric chest icon, flush with the floor, small soft contact shadow only`
+
+This prevents the image model from defaulting to its most common visual association for the object.
+
+### Correction for perspective drift
+
+Correction instructions for perspective drift should be surgical:
+
+> `Fix only the [prop] in [area]. Redraw it as a strictly top-down object: [top-down description]. No front face, no side face, no isometric angle. Preserve the chamber layout, lighting, walls, other props, style, and everything else unchanged.`
 
 ## Text, Labels, and Creatures
 
@@ -513,6 +544,7 @@ Before producing any VTT output, verify the applicable items.
 - [ ] Contrast is soft-to-balanced unless style or user requires otherwise
 - [ ] Reference layout and dimensions preserved exactly (if provided)
 - [ ] Map is fully top-down orthographic
+- [ ] All props obey strict top-down perspective — no prop shows front face, side face, or isometric angle; perspective-prone props (chests, barrels, tables, sarcophagi) use top-down constraint language in anchors and area dressing
 - [ ] Painted 3D depth cues used where appropriate (ambient occlusion, cast shadows, terrain edge shading)
 - [ ] Grid is NOT painted unless user explicitly requested it (default: no painted grid)
   - If grid was requested: subtle, integrated, low contrast, no labels

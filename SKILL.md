@@ -17,7 +17,7 @@ Load only the references needed for the active mode. Do not load all files by de
 | File | Purpose | Load when |
 |---|---|---|
 | `references/aesthetic-styles.md` | 18 rendering style definitions | Any mode requiring style selection |
-| `references/environment-presets.md` | 11 biome/terrain presets | Any mode requiring environment selection |
+| `references/environment-presets.md` | 11 biome/terrain presets; High-Detail Textures section at bottom loads conditionally | Any mode requiring environment selection; High-Detail section only loaded when mode=generation AND detail=high |
 | `references/vtt-core-rules.md` | Perspective, grid, contrast, creatures, lighting, narrative dressing, traps, correction rules, DM map variant, quality checklist | Prompt, Generation, or Correction mode |
 | `references/prompt-templates.md` | Compact and Verbose prompt templates with narrative dressing fields — player and DM variants | Prompt mode only |
 | `references/scene-art-mode.md` | Scene Art flow, moment suggestions, cinematic prompt template — player and DM variants | Scene Art mode only |
@@ -134,6 +134,8 @@ vtt_battlemap_forge(user_request, reference_image=None, creature_images=None,
 
     elif mode == "generation":
         assert_perspective_rules()
+        if detail == "high":
+            load(references/environment-presets.md, section="high-detail-textures")
         dims = snap_to_cell_grid(reference_image, user_request, cell_px)
         # dims = { cols, rows, width_px, height_px, estimated: bool }
         # See references/vtt-core-rules.md — Grid Dimensions Math
@@ -305,20 +307,20 @@ Mandatory Visual Anchors are especially important for:
 - Trap or hazard rooms where the visible, non-secret physical feature matters
 - Rooms that previously failed to show required props
 
-Mandatory Visual Anchors are not general atmosphere. They must be concrete nouns or short concrete prop phrases.
+Mandatory Visual Anchors are not general atmosphere. They must be concrete nouns or short concrete prop phrases. For props prone to perspective drift (chests, barrels, crates, tables, sarcophagi, beds, columns), append explicit top-down language: "viewed strictly from directly overhead," "rectangular top/lid only," "no front/side face visible."
 
 Examples:
-- closed wooden chest
+- closed wooden chest: rectangular top/lid viewed strictly from directly overhead, no front/side face
 - broken crate scraps
 - dusty footprints
-- sarcophagus
-- old table
-- four upright log stools
+- sarcophagus: rectangular top/lid only, viewed from directly above
+- old table: flat top surface, overhead view only, legs implied by shadow beneath
+- four upright log stools: top-down circular silhouette with contact shadow
 - heavy rolling log
 - shallow pool
-- closed stone coffin
+- closed stone coffin: rectangular top/lid only, overhead view
 - bedroll pile
-- weapon rack
+- weapon rack: top-down arrangement, no side panels
 
 Do not use Mandatory Visual Anchors for:
 - Hidden monsters
@@ -349,6 +351,7 @@ For each area:
 - Use 1 anchor for most rooms.
 - Use 2–3 anchors only when the room is small or the props are critical.
 - Keep anchors short and object-focused.
+- For perspective-prone props (chests, barrels, crates, tables, sarcophagi, beds, columns), append explicit top-down constraint: "rectangular top/lid viewed strictly from directly overhead, no front/side face, no angled perspective, flush with the floor."
 - Avoid atmospheric abstractions like "stale air," "ominous mood," or "neglected feeling."
 - Do not include spoilers in player-facing mode.
 

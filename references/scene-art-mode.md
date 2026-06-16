@@ -168,11 +168,13 @@ Keep each description one sentence maximum. No tactical detail in either variant
 
 When the user chooses a moment, output the final prompt in a code block.
 
+This is the base template for both Player and DM variants. See DM Variant Modifications below for DM-specific changes.
+
 ```
-Create a cinematic fantasy scene illustration based on this VTT battlemap location.
+Create a cinematic fantasy scene illustration based on this VTT battlemap location.[IF DM:  — DM version.]
 
 Scene Focus:
-[SELECTED MOMENT — describe the exact scene, framing, and implied action]
+[SELECTED MOMENT — describe the exact scene, framing, [IF DM: creature presence, and] implied action[IF DM:  or encounter beat]]
 
 Dimensions:
 [ASPECT RATIO — default 16:9 unless user specified otherwise. e.g., "16:9 landscape, 1920×1080"]
@@ -190,11 +192,22 @@ Lighting:
 [ATMOSPHERIC LIGHTING — based on environment default, zone description, or user-specified lighting. Describe quality, direction, color temperature, and key shadow behavior.]
 
 Mood:
-[EMOTIONAL TONE — e.g., ominous, mysterious, sacred, abandoned, tense, awe-inspiring, melancholic, oppressive, tranquil, dread, wonder]
+[EMOTIONAL TONE — e.g., ominous, mysterious, sacred, abandoned, tense, awe-inspiring, melancholic, oppressive, tranquil, dread, wonder][IF DM: e.g., menacing, tense encounter, ominous reveal, dread, power, awe-inspiring threat, dramatic confrontation]
+
+[IF DM VARIANT:
+Creatures:
+[CREATURE TYPE], [COUNT], [BEHAVIOR / STATE] — [brief visual description or reference image note]
+[CREATURE TYPE], [COUNT], [BEHAVIOR / STATE] — [brief visual description or reference image note]
+
+Creature rendering:
+Render all creatures as illustrated figures consistent with the aesthetic style. Figures should feel physically present in the scene. No token circles, no floating overlays, no name labels.
+[If creature reference images provided: Match creature appearance to the provided reference images.]
+]
 
 Key Visual Elements:
 - [LANDMARK or TERRAIN FEATURE — most prominent element in frame. Use zone-specific features if zone description provided.]
 - [PROP or ENVIRONMENTAL STORYTELLING DETAIL — narrative layer. Pull from zone description if available.]
+- [IF DM: - [CREATURE POSITION or STAGING — how creatures relate to the environment]]
 - [HAZARD, ATMOSPHERE, or TEXTURE ELEMENT — depth and danger cues]
 - [BACKGROUND or DISTANT FEATURE — edge connection to adjacent zone if known, or general depth]
 
@@ -203,6 +216,7 @@ Reference Image:
 A battlemap of this location is provided. Use it to match: color palette, material textures, lighting character, and spatial feel of the zone. Do not reproduce the top-down view — use as visual grounding for the cinematic composition only.
 [If zone label provided: Focus on the [ZONE LABEL] area of the map.]
 
+[IF PLAYER VARIANT:]
 Player-Facing Restrictions:
 No visible text, labels, UI, maps, grid lines, captions, or readable writing.
 No tactical top-down view.
@@ -217,66 +231,29 @@ Character Policy:
 - Adventurer silhouettes at mid or foreground only if the user requested characters.
 - Visible creature only if the user explicitly requested a creature-forward scene.
 
-Style Quality:
-High-quality fantasy key art. Immersive environmental storytelling. Strong atmosphere. Polished professional illustration. Coherent materials. Clear focal point. Cinematic depth. Visually readable composition.
-```
-
----
-
-## DM Scene Art Prompt Template
-
-Use when `dm_mode` is active. Creatures and spoilers are permitted. Structure mirrors the player template with three differences: spoiler restrictions removed, character policy expanded to allow creatures, and a Creatures section added.
-
-```
-Create a cinematic fantasy scene illustration based on this VTT battlemap location — DM version.
-
-Scene Focus:
-[SELECTED MOMENT — describe the exact scene, framing, creature presence, and implied action or encounter beat]
-
-Dimensions:
-[ASPECT RATIO — default 16:9 unless user specified otherwise. e.g., "16:9 landscape, 1920×1080"]
-
-Environment:
-[ENVIRONMENT DESCRIPTION — terrain, materials, palette, and mood. If zone description provided, use zone-specific details here instead of generic biome description.]
-
-Aesthetic Style:
-[STYLE DESCRIPTION — rendering approach, contrast character, palette, and finish from the selected aesthetic style]
-
-Camera and Composition:
-[CINEMATIC CAMERA ANGLE — see Camera Guide. Include: viewpoint, framing, foreground / midground / background structure, depth cues, compositional device. If zone context provided, use spatial connections to inform edge framing.]
-
-Lighting:
-[ATMOSPHERIC LIGHTING — based on environment default, zone description, or user-specified lighting. Describe quality, direction, color temperature, and key shadow behavior.]
-
-Mood:
-[EMOTIONAL TONE — e.g., menacing, tense encounter, ominous reveal, dread, power, awe-inspiring threat, dramatic confrontation]
-
-Creatures:
-[CREATURE TYPE], [COUNT], [BEHAVIOR / STATE] — [brief visual description or reference image note]
-[CREATURE TYPE], [COUNT], [BEHAVIOR / STATE] — [brief visual description or reference image note]
-
-Creature rendering:
-Render all creatures as illustrated figures consistent with the aesthetic style. Figures should feel physically present in the scene. No token circles, no floating overlays, no name labels.
-[If creature reference images provided: Match creature appearance to the provided reference images.]
-
-Key Visual Elements:
-- [LANDMARK or TERRAIN FEATURE — most prominent environmental element in frame. Use zone-specific features if zone description provided.]
-- [PROP or ENVIRONMENTAL STORYTELLING DETAIL — narrative layer. Pull from zone description if available.]
-- [CREATURE POSITION or STAGING — how creatures relate to the environment]
-- [BACKGROUND or DISTANT FEATURE — edge connection to adjacent zone if known, or general depth]
-
-[If map reference image provided:]
-Reference Image:
-A battlemap of this location is provided. Use it to match: color palette, material textures, lighting character, and spatial feel of the zone. Do not reproduce the top-down view — use as visual grounding for the cinematic composition only.
-[If zone label provided: Focus on the [ZONE LABEL] area of the map.]
-
+[IF DM VARIANT:]
 Scene Restrictions:
 No visible text, labels, UI, maps, grid lines, captions, or readable writing.
 No tactical top-down view. No battlemap layout view. No miniatures or token-like characters.
 
 Style Quality:
-High-quality fantasy key art. Immersive environmental storytelling. Creatures feel dangerous and present. Strong atmosphere. Polished professional illustration. Clear focal point. Cinematic depth.
+High-quality fantasy key art. Immersive environmental storytelling.[IF DM:  Creatures feel dangerous and present.] Strong atmosphere. Polished professional illustration. [IF PLAYER: Coherent materials. Clear focal point.] Cinematic depth. [IF PLAYER: Visually readable composition.]
 ```
+
+---
+
+## DM Variant Modifications
+
+When `dm_mode` is active, apply these changes to the base Scene Art Prompt Template above. The template already has `[IF DM VARIANT:]` markers at each modification point. The three major differences from the Player variant are:
+
+1. **Spoiler restrictions removed.** The "Player-Facing Restrictions" block is replaced with "Scene Restrictions" (no spoiler restriction line). See Spoiler Policy below.
+2. **Creatures section added** after the Mood field. Includes creature type, count, behavior, visual description, rendering rules, and optional reference image notes.
+3. **Character Policy replaced.** Instead of the player-facing character policy options, creatures are rendered as specified in the Creatures section. No separate character policy block is needed.
+4. **Key Visual Elements** gains a creature position/staging bullet point.
+5. **Mood** examples shift to encounter-appropriate tones (menacing, tense encounter, dramatic confrontation).
+6. **Opening line** appends " — DM version" to signal the variant.
+
+All other fields (Scene Focus, Dimensions, Environment, Aesthetic Style, Camera, Lighting, Map Reference Image) remain identical to the Player variant.
 
 ---
 

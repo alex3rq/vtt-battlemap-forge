@@ -437,25 +437,32 @@ For Isometric/Standee tokens, append the standee warning note after the code blo
 
 ---
 
-### Compact Token Prompt — Portrait / Pog
+### Compact Token Prompt
 
-**If a reference image is provided**, open with:
-> *"Create a 1:1 square VTT token portrait from the provided reference image."*
+**Assembly:** Select the token type from the Type-Specific Blocks table below. Fill the base template with the corresponding blocks from the selected column and the appropriate opening line from the Opening Lines table.
 
-**If no reference image is provided**, open with:
-> *"Create a 1:1 square VTT token portrait of the following creature."*
+#### Opening Lines
+
+| Type | No reference image | With reference image |
+|---|---|---|
+| Portrait / Pog | "Create a 1:1 square VTT token portrait of the following creature." | "Create a 1:1 square VTT token portrait from the provided reference image." |
+| Frameless Portrait | "Create a 1:1 square VTT frameless token portrait of the following creature." | "Create a 1:1 square VTT frameless token portrait from the provided reference image." |
+| Top-Down | "Create a 1:1 square VTT top-down overhead token of the following creature." | "Create a 1:1 square VTT top-down overhead token from the provided reference image." |
+| Isometric / Standee | "Create a 1:1 square VTT isometric standee token of the following creature." | "Create a 1:1 square VTT isometric standee token from the provided reference image." |
+
+#### Base Template
 
 ```
-[OPENING LINE — see above]
+[OPENING LINE — from table above]
 
 Token Subject:
 [CREATURE / NPC / MONSTER NAME OR TYPE — include key visual traits if no reference image]
 
 Composition:
-Use a face-first close-up composition: the subject's face, head, eyes, expression, and most recognizable features must be the clear focal point. Avoid full-body framing unless explicitly necessary for the creature's identity.
+{COMPOSITION}
 
 Token Frame:
-Use a bold circular fantasy token frame with a polished [FRAME COLOR] beveled rim. The subject MUST intentionally break and overlap the circular border — this border-breaking effect is required, not optional. The token must feel dimensional and layered, not like a flat portrait cropped inside a circle. The creature must feel like it is pushing out of the frame. Use horns, crests, ears, snout, mandibles, wings, claws, weapon tips, shoulders, cloak edges, armor spikes, or tail tips extending visibly beyond the rim. Keep the face mostly inside the circle, fully readable, and visually dominant. Background elements must stay completely inside the circular frame.
+{FRAME}
 
 Subject Identity:
 [IF REFERENCE PROVIDED:] Match the subject's identity, species, coloration, silhouette, armor/clothing, visible equipment, weapons, props, and distinctive features from the reference image. Do not invent or redesign equipment, weapons, armor, accessories, anatomy, or props not present in the reference image.
@@ -465,143 +472,33 @@ Aesthetic Style:
 [SELECTED AESTHETIC STYLE DESCRIPTION]
 
 Background:
-Simple atmospheric backdrop inside the circular frame only: [TOKEN BACKDROP from environment]. Keep it subdued, softly blurred, and lower contrast than the face. No tactical map, no grid, no full scene, no clutter. The area outside the circular frame must be fully transparent (alpha = 0) — no black fill, no white fill, no gray fill, no checkerboard pattern. Only the subject's breakout elements (horns, wings, claws, etc.) may appear outside the circular rim.
+{BACKGROUND}
 
 Lighting:
-Dramatic but readable portrait lighting. Highlight the face, eyes, and defining features. Use subtle rim light on silhouette edges, horns, scales, fur, armor, or wet surfaces. Avoid crushed black shadows over the face and avoid overbright highlights.
+{LIGHTING}
 
 Restrictions:
-No text, labels, UI, nameplates, numbers, captions, watermarks, status icons, tactical map, grid, or readable writing. No fog, scenery, props, brush texture, shadows, or background atmosphere outside the circular frame. The area outside the ring must be fully transparent — subject breakout elements only, nothing else.
+{RESTRICTIONS}
 ```
 
----
+#### Type-Specific Blocks
 
-### Compact Token Prompt — Frameless Portrait
-
-**If a reference image is provided**, open with:
-> *"Create a 1:1 square VTT frameless token portrait from the provided reference image."*
-
-**If no reference image is provided**, open with:
-> *"Create a 1:1 square VTT frameless token portrait of the following creature."*
-
-```
-[OPENING LINE — see above]
-
-Token Subject:
-[CREATURE / NPC / MONSTER NAME OR TYPE — include key visual traits if no reference image]
-
-Composition:
-Use a face-first close-up composition: face, head, eyes, expression, and most recognizable features as the clear focal point. Head-and-shoulders bust or tight creature portrait. No circular frame or border ring — the subject blends naturally into the background through a soft painterly vignette at the edges.
-
-Subject Identity:
-[IF REFERENCE PROVIDED:] Match the subject's identity, species, coloration, silhouette, armor/clothing, visible equipment, weapons, props, and distinctive features from the reference image.
-[IF NO REFERENCE:] Render the subject based on the description above. Use genre-appropriate anatomy, coloration, and equipment.
-
-Aesthetic Style:
-[SELECTED AESTHETIC STYLE DESCRIPTION]
-
-Background:
-Simple atmospheric backdrop: [TOKEN BACKDROP from environment]. Keep it subdued, softly blurred or painterly, and lower contrast than the face. The background must fade to near-black or solid black at all four image edges via a natural vignette — no sharp crop, no frame, no border ring. Dark uniform edges enable clean background removal.
-
-Lighting:
-Dramatic but readable portrait lighting. Highlight the face, eyes, and defining features. Subtle rim light on silhouette edges. Avoid crushed shadows over the face and overbright highlights.
-
-Restrictions:
-No circular frame. No border ring or beveled rim. No text, labels, UI, nameplates, numbers, captions, watermarks, status icons, tactical map, or grid. No white background, no checkerboard pattern.
-```
-
----
-
-### Compact Token Prompt — Top-Down
-
-**If a reference image is provided**, open with:
-> *"Create a 1:1 square VTT top-down overhead token from the provided reference image."*
-
-**If no reference image is provided**, open with:
-> *"Create a 1:1 square VTT top-down overhead token of the following creature."*
-
-```
-[OPENING LINE — see above]
-
-Token Subject:
-[CREATURE / NPC / MONSTER NAME OR TYPE — include key visual traits if no reference image]
-
-Composition:
-Strict overhead bird's-eye view — camera is directly above the subject, looking straight down. Show the head (or top of skull), shoulders, back, any held weapons, wings, tail, or distinctive anatomy as seen from above. The creature's facing direction must be clearly readable from the silhouette — head, snout, beak, or weapon tip indicates which way the subject faces. Full-body silhouette is expected and correct for this type.
-
-Subject Identity:
-[IF REFERENCE PROVIDED:] Match the subject's species, coloration, anatomy, armor, weapons, and distinctive features from the reference. Reinterpret all visible anatomy into the overhead perspective.
-[IF NO REFERENCE:] Render the subject based on the description above. Use the most iconic top-down anatomy for this creature type.
-
-Aesthetic Style:
-[SELECTED AESTHETIC STYLE DESCRIPTION]
-
-Background:
-Solid black or near-black (#0a0a0a). No atmospheric scene. No environmental props. A subtle soft drop shadow or radial shadow directly below the subject is allowed. Uniform dark background enables clean background removal.
-
-Lighting:
-Overhead ambient lighting consistent with the aesthetic style. Keep the subject readable and well-defined from above. Rim highlights on armor, scales, fur, or silhouette edges. Avoid deep shadow pools that hide the silhouette shape.
-
-Restrictions:
-No circular frame. No border ring. No text, labels, UI, nameplates, numbers, captions, watermarks, status icons, tactical map, grid, or readable writing. No white, gray, or patterned background fill — background must be solid dark. No perspective distortion — camera is strictly overhead.
-```
-
----
-
-### Compact Token Prompt — Isometric / Standee
-
-**If a reference image is provided**, open with:
-> *"Create a 1:1 square VTT isometric standee token from the provided reference image."*
-
-**If no reference image is provided**, open with:
-> *"Create a 1:1 square VTT isometric standee token of the following creature."*
-
-```
-[OPENING LINE — see above]
-
-Token Subject:
-[CREATURE / NPC / MONSTER NAME OR TYPE — include key visual traits if no reference image]
-
-Composition:
-2.5D isometric perspective: subject viewed from approximately 45° elevation and 45° side angle, standing fully upright. Full body visible — head, torso, legs, feet, and any held weapons or props. The subject stands on a flat oval base plate. Center the subject horizontally, positioned in the lower two-thirds of the canvas to allow headroom. Full-body posture and silhouette take priority; show the character's attitude, equipment, and bearing.
-
-Subject Identity:
-[IF REFERENCE PROVIDED:] Match the subject's species, coloration, anatomy, armor, weapons, and distinctive features. Reinterpret full anatomy into the isometric standing pose.
-[IF NO REFERENCE:] Render the subject based on the description above. Use genre-appropriate anatomy, equipment, and posture.
-
-Aesthetic Style:
-[SELECTED AESTHETIC STYLE DESCRIPTION]
-
-Base Plate:
-Flat oval or elliptical base beneath the subject's feet. Color: [dark stone / dark wood / dark metal — match environment and aesthetic]. Fades to near-black at its edges.
-
-Background:
-Solid black or near-black. No atmospheric scene behind the subject. Uniform dark background enables clean background removal.
-
-Lighting:
-Isometric portrait lighting: key light from the upper-left (matching standard isometric convention), fill light from the right to avoid crushed shadows. Highlight the face, silhouette edges, armor, and weapons. Readable from the isometric angle.
-
-Restrictions:
-No circular frame. No border ring. No text, labels, UI, nameplates, numbers, captions, watermarks, status icons, tactical map, grid, or readable writing. No white, gray, or patterned background fill — background must be solid dark. Maintain consistent isometric perspective throughout — no mixed camera angles.
-```
+| Block | Portrait / Pog | Frameless Portrait | Top-Down | Isometric / Standee |
+|---|---|---|---|---|
+| **COMPOSITION** | Face-first close-up composition: the subject's face, head, eyes, expression, and most recognizable features must be the clear focal point. Avoid full-body framing unless explicitly necessary for the creature's identity. Frame as a tight close-up, head-and-shoulders bust, or tight creature portrait. The face should occupy 55–75% of the token's visual attention. The token must feel dimensional and layered — use horns, crests, ears, snout, mandibles, wings, claws, weapon tips, shoulders, cloak edges, armor spikes, or tail tips extending visibly beyond the circular frame. | Face-first close-up composition: face, head, eyes, expression, and most recognizable features as the clear focal point. Head-and-shoulders bust or tight creature portrait. No circular frame or border ring — the subject blends naturally into the background through a soft painterly vignette at the edges. | Strict overhead bird's-eye view — camera is directly above the subject, looking straight down. Show the head (or top of skull), shoulders, back, any held weapons, wings, tail, or distinctive anatomy as seen from above. Full-body silhouette is expected and correct for this type. The creature's facing direction must be clearly readable from the silhouette — head, snout, beak, or weapon tip indicates which way the subject faces. | 2.5D isometric perspective: subject viewed from approximately 45° elevation and 45° side angle, standing fully upright. Full body visible — head, torso, legs, feet, and any held weapons or props. The subject stands on a flat oval base plate. Center the subject horizontally, positioned in the lower two-thirds of the canvas to allow headroom. Full-body posture and silhouette take priority; show the character's attitude, equipment, and bearing. |
+| **FRAME** | Bold circular fantasy token frame with a polished [FRAME COLOR] beveled rim. The subject MUST intentionally break and overlap the circular border — this border-breaking effect is required, not optional. The token must feel dimensional and layered, not like a flat portrait cropped inside a circle. The creature must feel like it is pushing out of the frame. Keep the face mostly inside the circle, fully readable, and visually dominant. Background elements must stay completely inside the circular frame. | No circular border ring and no beveled rim — the subject blends naturally into the background through a soft painterly vignette. No frame color needed. | No circular frame. No border ring. The silhouette IS the token shape. Soft drop shadow or subtle base ring below the subject to ground it. | No circular frame. No border ring. Subject stands on a flat oval or elliptical base plate. Base plate color: [dark stone / dark wood / dark metal — match environment and aesthetic]. Fades to near-black at its edges. |
+| **BACKGROUND** | Simple atmospheric backdrop inside the circular frame only: [TOKEN BACKDROP from environment]. Keep it subdued, softly blurred, and lower contrast than the face. No tactical map, no grid, no full scene, no clutter. The area outside the circular frame must be fully transparent (alpha = 0) — no black fill, no white fill, no gray fill, no checkerboard pattern. Only the subject's breakout elements (horns, wings, claws, etc.) may appear outside the circular rim. | Simple atmospheric backdrop: [TOKEN BACKDROP from environment]. Keep it subdued, softly blurred or painterly, and lower contrast than the face. The background must fade to near-black or solid black at all four image edges via a natural vignette — no sharp crop, no frame, no border ring. Dark uniform edges enable clean background removal. | Solid black or near-black (#0a0a0a). No atmospheric scene. No environmental props. A subtle soft drop shadow or radial shadow directly below the subject is allowed. Uniform dark background enables clean background removal. | Solid black or near-black. No atmospheric scene behind the subject. The base plate beneath the subject may carry a subtle environment-matched texture but must fade to near-black at its edges. Uniform dark background enables clean background removal. |
+| **LIGHTING** | Dramatic but readable portrait lighting. Highlight the face, eyes, and defining features. Use subtle rim light on silhouette edges, horns, scales, fur, armor, or wet surfaces. Avoid crushed black shadows over the face and avoid overbright highlights. | Dramatic but readable portrait lighting. Highlight the face, eyes, and defining features. Subtle rim light on silhouette edges. Avoid crushed shadows over the face and overbright highlights. | Overhead ambient lighting consistent with the aesthetic style. Keep the subject readable and well-defined from above. Rim highlights on armor, scales, fur, or silhouette edges. Avoid deep shadow pools that hide the silhouette shape. | Isometric portrait lighting: key light from the upper-left (matching standard isometric convention), fill light from the right to avoid crushed shadows. Highlight the face, silhouette edges, armor, and weapons. Readable from the isometric angle. |
+| **RESTRICTIONS** | No text, labels, UI, nameplates, numbers, captions, watermarks, status icons, tactical map, grid, or readable writing. No fog, scenery, props, brush texture, shadows, or background atmosphere outside the circular frame. The area outside the ring must be fully transparent — subject breakout elements only, nothing else. | No circular frame. No border ring or beveled rim. No text, labels, UI, nameplates, numbers, captions, watermarks, status icons, tactical map, or grid. No white background, no checkerboard pattern. | No circular frame. No border ring. No text, labels, UI, nameplates, numbers, captions, watermarks, status icons, tactical map, grid, or readable writing. No white, gray, or patterned background fill — background must be solid dark. No perspective distortion — camera is strictly overhead. | No circular frame. No border ring. No text, labels, UI, nameplates, numbers, captions, watermarks, status icons, tactical map, grid, or readable writing. No white, gray, or patterned background fill — background must be solid dark. Maintain consistent isometric perspective throughout — no mixed camera angles. |
 
 ---
 
 ### Verbose Token Prompt — Self-Contained
 
-Use when the prompt will be sent to an external AI without access to token rules. Select the appropriate opening line and composition block for the active token type.
-
-**Opening lines by type and reference image:**
-
-| Type | No reference | With reference |
-|---|---|---|
-| Portrait / Pog | "Create a 1:1 square VTT token portrait of the following creature." | "Create a 1:1 square VTT token portrait based on the provided reference image." |
-| Frameless Portrait | "Create a 1:1 square VTT frameless token portrait of the following creature." | "Create a 1:1 square VTT frameless token portrait based on the provided reference image." |
-| Top-Down | "Create a 1:1 square VTT top-down overhead token of the following creature." | "Create a 1:1 square VTT top-down overhead token based on the provided reference image." |
-| Isometric / Standee | "Create a 1:1 square VTT isometric standee token of the following creature." | "Create a 1:1 square VTT isometric standee token based on the provided reference image." |
+Use when the prompt will be sent to an external AI without access to token rules. Select the opening line from the table above and the composition block below for the active token type.
 
 ```
-[OPENING LINE — see table above]
+[OPENING LINE — from Opening Lines table above]
 
 TOKEN SUBJECT:
 [CREATURE / NPC / MONSTER — name, type, species, key traits. If no reference, include coloration, distinctive anatomy, equipment, and personality.]
@@ -708,4 +605,3 @@ Before producing a token prompt, verify:
 - [ ] No text, labels, UI, numbers, nameplates, icons, captions, or readable writing
 - [ ] No tactical map, grid, or coordinates in the background
 - [ ] Prompt opening line matches token type and whether a reference image was provided
-
